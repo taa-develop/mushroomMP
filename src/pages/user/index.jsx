@@ -20,9 +20,7 @@ class User extends Component {
 
   handleUserBind = () => {
     Taro.getUserInfo().then(r => {
-      console.log("r: ", r);
       let uInfo = {
-        // language: r.userInfo.avatarUrl,
         avatarUrl: r.userInfo.avatarUrl,
         gender: r.userInfo.gender == 1 ? "MAN" : "WOMAN",
         nickName: r.userInfo.nickName,
@@ -35,9 +33,6 @@ class User extends Component {
           if (res.code) {
             Taro.request({
               url: "http://127.0.0.1:9876/graphql",
-              // header:{
-              //   authorization: `Bearer {}`
-              // },
               data: {
                 query: `mutation WeLogin($code: String!,$userinfo:InputWeChatUser) {
                   weChatLogin(code: $code,userinfo: $userinfo) {

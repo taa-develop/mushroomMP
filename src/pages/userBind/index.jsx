@@ -26,18 +26,33 @@ class UserBind extends Component {
     if (this.state.userName && this.state.phone) {
       Taro.request({
         url: "http://127.0.0.1:9876/graphql",
-        header:{
-          authorization: `Bearer ${Taro.getStorageSync('token')}`
+        header: {
+          authorization: `Bearer ${Taro.getStorageSync("token")}`
         },
         data: {
           query: `mutation weChatAuthe($username: String!,$realName: String!) {
             weChatAuthentication(username: $username,realName: $realName)
           }`,
-          variables: { username: this.state.phone, realName: this.state.userName }
+          variables: {
+            username: this.state.phone,
+            realName: this.state.userName
+          }
         },
         method: "POST",
-        success: function (res) {
-          console.log(res)
+        success: function(res) {
+          if (res.data.data.weChatAuthentication) {
+            Taro.showToast({
+              title: "绑定成功",
+              icon: "success",
+              duration: 3000
+            });
+          }else{
+            Taro.showToast({
+              title: '账户已绑定',
+              icon: "success",
+              duration: 3000
+            })
+          }
         }
       });
     }
