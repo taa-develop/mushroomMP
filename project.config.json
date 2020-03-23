@@ -4,7 +4,7 @@
 	"description": "a mushroom project",
 	"appid": "wxe7de0046998773b8",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"preloadBackgroundData": false,

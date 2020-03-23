@@ -29,14 +29,14 @@ class App extends Component {
     },
     tabBar: {
       color: "#666",
-      selectedColor: "#b4282d",
+      selectedColor: "#1D5181",
       backgroundColor: "#fafafa",
       borderStyle: "black",
       list: [
         {
           pagePath: "pages/index/index",
-          iconPath: "./assets/tab-bar/home.png",
-          selectedIconPath: "./assets/tab-bar/home-active.png",
+          iconPath: "./assets/new-home.png",
+          selectedIconPath: "./assets/new-home-active.png",
           text: "首页"
         },
         {

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
-import { AtButton } from "taro-ui";
+// import { AtButton } from "taro-ui";
 import "./index.scss";
 
 class User extends Component {
@@ -32,7 +32,7 @@ class User extends Component {
         success: function(res) {
           if (res.code) {
             Taro.request({
-              url: "http://127.0.0.1:9876/graphql",
+              url: "https://api.yiquanxinhe.com/graphql",
               data: {
                 query: `mutation WeLogin($code: String!,$userinfo:InputWeChatUser) {
                   weChatLogin(code: $code,userinfo: $userinfo) {
@@ -65,13 +65,20 @@ class User extends Component {
   render() {
     return (
       <View className="container">
-        <View className="items">
+        <View className="header">
+          <View className="wrapper">
+            <View className="LeftTx"></View>
+            <View className="RightWz"></View>
+          </View>
+        </View>
+        <View className="content"></View>
+        {/* <View className="items">
           <View className="item">
             <AtButton type="primary" onClick={this.handleUserBind}>
               用户绑定
             </AtButton>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }

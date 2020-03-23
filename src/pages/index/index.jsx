@@ -14,7 +14,7 @@ class Index extends Component {
         title: "登录成功",
         icon: "success",
         duration: 3000
-      })
+      });
       // .then(res => {
       //   if (res.errMsg == "showToast:ok") {
       //     Taro.navigateTo({
@@ -28,7 +28,8 @@ class Index extends Component {
     return (
       <View className="container">
         <View className="header">
-          <Text>双胞蘑菇工厂化生产智能管理平台</Text>
+          <Text className='title'>双胞蘑菇工厂化生产</Text>
+          <Text  className='title'>智能管理平台</Text>
         </View>
         <View className="content">
           <Button

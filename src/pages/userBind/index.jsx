@@ -25,7 +25,7 @@ class UserBind extends Component {
   onSubmit() {
     if (this.state.userName && this.state.phone) {
       Taro.request({
-        url: "http://127.0.0.1:9876/graphql",
+        url: "https://api.yiquanxinhe.com/graphql",
         header: {
           authorization: `Bearer ${Taro.getStorageSync("token")}`
         },
