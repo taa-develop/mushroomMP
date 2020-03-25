@@ -20,7 +20,14 @@ class App extends Component {
   componentDidMount() {}
 
   config = {
-    pages: ["pages/index/index", "pages/user/index", "pages/userBind/index"],
+    pages: [
+      "pages/index/index", 
+      "pages/user/index", 
+      "pages/userBind/index",
+      'pages/roomManage/index',
+      'pages/tunnelManage/index',
+      'pages/dataManage/index',
+    ],
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fff",
@@ -40,10 +47,28 @@ class App extends Component {
           text: "首页"
         },
         {
+          pagePath: "pages/roomManage/index",
+          iconPath: "./assets/room.png",
+          selectedIconPath: "./assets/room-active.png",
+          text: "菇房管理"
+        },
+        {
+          pagePath: "pages/tunnelManage/index",
+          iconPath: "./assets/tunnel.png",
+          selectedIconPath: "./assets/tunnel-active.png",
+          text: "隧道管理"
+        },
+        {
+          pagePath: "pages/dataManage/index",
+          iconPath: "./assets/data.png",
+          selectedIconPath: "./assets/data-active.png",
+          text: "数据管理"
+        },
+        {
           pagePath: "pages/user/index",
-          iconPath: "./assets/tab-bar/user.png",
-          selectedIconPath: "./assets/tab-bar/user-active.png",
-          text: "个人"
+          iconPath: "./assets/user.png",
+          selectedIconPath: "./assets/user-active.png",
+          text: "我的"
         }
       ]
     }
