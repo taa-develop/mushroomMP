@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/first */
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import "./index.scss";
 import { AtButton, AtSwipeAction } from "taro-ui";
 
@@ -28,8 +30,7 @@ class RoomManage extends Component {
     );
   };
 
-  handleAction = (index, ckItem, event, other) => {
-    console.log("index: ", index);
+  handleAction = (index, ckItem, event) => {
     if (ckItem.text == "取消") {
       this.setState({
         isOpened: false
@@ -42,9 +43,10 @@ class RoomManage extends Component {
     }
   };
 
-  handleItem = (indx) => {
-    console.log('indx: ', indx);
-
+  handleItem = indx => {
+    Taro.navigateTo({
+      url: `/pages/recordingRoom/index?id=${indx}`
+    });
   };
 
   render() {
@@ -77,7 +79,10 @@ class RoomManage extends Component {
                 }
               ]}
             >
-              <View className="item" onClick={this.handleItem.bind(this, indx + 1)}>
+              <View
+                className="item"
+                onClick={this.handleItem.bind(this, indx + 1)}
+              >
                 {v}号菇房
               </View>
             </AtSwipeAction>

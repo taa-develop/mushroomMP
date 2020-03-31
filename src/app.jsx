@@ -21,12 +21,14 @@ class App extends Component {
 
   config = {
     pages: [
-      "pages/index/index", 
-      "pages/user/index", 
+      "pages/index/index",
+      "pages/user/index",
       "pages/userBind/index",
-      'pages/roomManage/index',
-      'pages/tunnelManage/index',
-      'pages/dataManage/index',
+      "pages/roomManage/index",
+      "pages/recordingRoom/index",
+      "pages/tunnelManage/index",
+      // "pages/tunnelManage/recording",
+      "pages/dataManage/index"
     ],
     window: {
       backgroundTextStyle: "light",
