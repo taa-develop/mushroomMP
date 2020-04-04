@@ -1,3 +1,4 @@
+/* eslint-disable import/newline-after-import */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/first */
 /* eslint-disable jsx-quotes */
@@ -5,13 +6,17 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Picker } from "@tarojs/components";
 import "./index.scss";
 import { AtForm, AtInput, AtButton } from "taro-ui";
-
+import dayjs from "dayjs";
 class Recording extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      selector: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
-      selectorValue: 0
+      selectorJd: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
+      selectorJdValue: 0,
+      selectorPc: ["第一批次", "第二批次", "第三批次", "第四批次", "第五批次"],
+      selectorPcValue: 0,
+      dateSel: dayjs().format("YYYY-MM-DD"),
+      timeSel: dayjs().format("HH:mm")
     };
   }
 
@@ -23,94 +28,155 @@ class Recording extends Component {
   componentDidMount() {}
 
   config = {
-    navigationBarTitleText: "菇房管理-生产指标录入"
+    navigationBarTitleText: "生产指标录入"
   };
 
-  handleChange(value) {
+  handleChangeName(value) {
     this.setState({
-      value
+      name: value
     });
   }
+
+  handleChangeJd = e => {
+    this.setState({
+      selectorJdValue: e.detail.value
+    });
+  };
+  handleChangePc = e => {
+    this.setState({
+      selectorPcValue: e.detail.value
+    });
+  };
+  handleDateChange = e => {
+    this.setState({
+      dateSel: e.detail.value
+    });
+  };
+  handleTimeChange = e => {
+    this.setState({
+      timeSel: e.detail.value
+    });
+  };
+
   onSubmit(event) {
     console.log(event);
+    let data = {
+      name: this.state.name,
+      selectorJdValue: this.state.selectorJd[this.state.selectorJdValue],
+      selectorPcValue: this.state.selectorPc[this.state.selectorPcValue],
+      dateSel: this.state.dateSel,
+      timeSel: this.state.timeSel
+    };
+    console.log("data: ", data);
   }
-
-  handleChange = e => {
-    this.setState({
-      selectorValue: e.detail.value
-    });
-  };
   render() {
-    const { selector, selectorValue } = this.state;
+    const {
+      name,
+      selectorJd,
+      selectorJdValue,
+      selectorPc,
+      selectorPcValue,
+      dateSel,
+      timeSel
+    } = this.state;
     return (
       <View className="container">
         <AtForm onSubmit={this.onSubmit.bind(this)}>
-          <AtInput
-            name="value"
-            title="文本"
-            type="text"
-            placeholder="单行文本"
-            value={this.state.value}
-            onChange={this.handleChange.bind(this)}
-          />
-          <View className="panel">
-            <View className="panel__content">
-              <View className="example-item">
-                <Picker
-                  mode="selector"
-                  range={selector}
-                  value={selectorValue}
-                  onChange={this.handleChange}
-                >
-                  <View className="demo-list-item">
-                    <View className="demo-list-item__label">所处批次</View>
-                    <View className="demo-list-item__value">
-                      {selector[selectorValue]}
+          <View className="item">
+            <AtInput
+              name="value"
+              title="记录人员"
+              type="text"
+              placeholder="填写记录人员姓名"
+              value={name}
+              onChange={this.handleChangeName.bind(this)}
+            />
+          </View>
+
+          <View className="item">
+            <View className="panel">
+              <View className="panel__content">
+                <View className="example-item">
+                  <Picker
+                    mode="selector"
+                    range={selectorJd}
+                    value={selectorJdValue}
+                    onChange={this.handleChangeJd}
+                  >
+                    <View className="demo-list-item">
+                      <View className="demo-list-item__label">所处阶段</View>
+                      <View className="demo-list-item__value">
+                        {selectorJd[selectorJdValue]}
+                      </View>
                     </View>
-                  </View>
-                </Picker>
+                  </Picker>
+                </View>
               </View>
             </View>
           </View>
-          <View className="panel">
-            <View className="panel__content">
-              <View className="example-item">
-                <Picker
-                  mode="selector"
-                  range={selector}
-                  value={selectorValue}
-                  onChange={this.handleChange}
-                >
-                  <View className="demo-list-item">
-                    <View className="demo-list-item__label">所处阶段</View>
-                    <View className="demo-list-item__value">
-                      {selector[selectorValue]}
+          <View className="item">
+            <View className="panel">
+              <View className="panel__content">
+                <View className="example-item">
+                  <Picker
+                    mode="selector"
+                    range={selectorPc}
+                    value={selectorPcValue}
+                    onChange={this.handleChangePc}
+                  >
+                    <View className="demo-list-item">
+                      <View className="demo-list-item__label">所处批次</View>
+                      <View className="demo-list-item__value">
+                        {selectorPc[selectorPcValue]}
+                      </View>
                     </View>
-                  </View>
-                </Picker>
+                  </Picker>
+                </View>
               </View>
             </View>
           </View>
-          <View className="panel">
-            <View className="panel__content">
-              <View className="example-item">
-                <Picker
-                  mode="selector"
-                  range={selector}
-                  value={selectorValue}
-                  onChange={this.handleChange}
-                >
-                  <View className="demo-list-item">
-                    <View className="demo-list-item__label">记录时间</View>
-                    <View className="demo-list-item__value">
-                      {selector[selectorValue]}
+          <View className="item">
+            <View className="panel">
+              <View className="panel__content">
+                <View className="example-item">
+                  <Picker
+                    mode="date"
+                    value={dateSel}
+                    onChange={this.handleDateChange}
+                  >
+                    <View className="demo-list-item">
+                      <View className="demo-list-item__label">录入日期</View>
+                      <View className="demo-list-item__value">{dateSel}</View>
                     </View>
-                  </View>
-                </Picker>
+                  </Picker>
+                </View>
               </View>
             </View>
           </View>
-          <AtButton formType="submit">提交</AtButton>
+
+          <View className="item">
+            <View className="panel">
+              <View className="panel__content">
+                <View className="example-item">
+                  <Picker
+                    mode="time"
+                    value={timeSel}
+                    onChange={this.handleTimeChange}
+                  >
+                    <View className="demo-list-item">
+                      <View className="demo-list-item__label">记录时间</View>
+                      <View className="demo-list-item__value">{timeSel}</View>
+                    </View>
+                  </Picker>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View className="buttonGroup">
+            <AtButton formType="submit" type="primary">
+              提交
+            </AtButton>
+          </View>
         </AtForm>
       </View>
     );
