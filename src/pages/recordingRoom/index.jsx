@@ -97,27 +97,6 @@ class Recording extends Component {
                 <View className="example-item">
                   <Picker
                     mode="selector"
-                    range={selectorJd}
-                    value={selectorJdValue}
-                    onChange={this.handleChangeJd}
-                  >
-                    <View className="demo-list-item">
-                      <View className="demo-list-item__label">所处阶段</View>
-                      <View className="demo-list-item__value">
-                        {selectorJd[selectorJdValue]}
-                      </View>
-                    </View>
-                  </Picker>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View className="item">
-            <View className="panel">
-              <View className="panel__content">
-                <View className="example-item">
-                  <Picker
-                    mode="selector"
                     range={selectorPc}
                     value={selectorPcValue}
                     onChange={this.handleChangePc}
@@ -133,6 +112,29 @@ class Recording extends Component {
               </View>
             </View>
           </View>
+
+          <View className="item">
+            <View className="panel">
+              <View className="panel__content">
+                <View className="example-item">
+                  <Picker
+                    mode="selector"
+                    range={selectorJd}
+                    value={selectorJdValue}
+                    onChange={this.handleChangeJd}
+                  >
+                    <View className="demo-list-item">
+                      <View className="demo-list-item__label">所处阶段</View>
+                      <View className="demo-list-item__value">
+                        {selectorJd[selectorJdValue]}
+                      </View>
+                    </View>
+                  </Picker>
+                </View>
+              </View>
+            </View>
+          </View>
+
           <View className="item">
             <View className="panel">
               <View className="panel__content">
