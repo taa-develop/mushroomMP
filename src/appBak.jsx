@@ -2,7 +2,7 @@ import "@tarojs/async-await";
 import Taro, { Component } from "@tarojs/taro";
 import { Provider } from "@tarojs/redux";
 
-import Login from "./pages/login/index";
+import Index from "./pages/index/index";
 
 import configStore from "./store";
 
@@ -21,21 +21,20 @@ class App extends Component {
 
   config = {
     pages: [
-      "pages/login/index",
       "pages/index/index",
       "pages/user/index",
       "pages/userBind/index",
       "pages/roomManage/index",
       "pages/recordingRoom/index",
       "pages/tunnelManage/index",
-      "pages/recordingTunnel/index",
-      "pages/dataManage/index",
+      // "pages/tunnelManage/recording",
+      "pages/dataManage/index"
     ],
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fff",
       navigationBarTitleText: "WeChat",
-      navigationBarTextStyle: "black",
+      navigationBarTextStyle: "black"
     },
     tabBar: {
       color: "#666",
@@ -47,35 +46,36 @@ class App extends Component {
           pagePath: "pages/index/index",
           iconPath: "./assets/new-home.png",
           selectedIconPath: "./assets/new-home-active.png",
-          text: "首页",
+          text: "首页"
         },
         {
           pagePath: "pages/roomManage/index",
           iconPath: "./assets/room.png",
           selectedIconPath: "./assets/room-active.png",
-          text: "菇房管理",
+          text: "菇房管理"
         },
         {
           pagePath: "pages/tunnelManage/index",
           iconPath: "./assets/tunnel.png",
           selectedIconPath: "./assets/tunnel-active.png",
-          text: "隧道管理",
+          text: "隧道管理"
         },
         {
           pagePath: "pages/dataManage/index",
           iconPath: "./assets/data.png",
           selectedIconPath: "./assets/data-active.png",
-          text: "数据管理",
+          text: "数据管理"
         },
         {
           pagePath: "pages/user/index",
           iconPath: "./assets/user.png",
           selectedIconPath: "./assets/user-active.png",
-          text: "我的",
-        },
-      ],
-    },
+          text: "我的"
+        }
+      ]
+    }
   };
+
   componentDidShow() {}
 
   componentDidHide() {}
@@ -87,7 +87,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Login />
+        <Index />
       </Provider>
     );
   }

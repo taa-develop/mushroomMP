@@ -25,8 +25,8 @@ $fontSize: 24rpx;
       box-shadow: 0 4rpx 30rpx 0 rgba(4, 59, 85, 0.1);
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      padding-left: 20rpx;
+      justify-content: space-between;
+      padding:0  20rpx;
       font-weight: bold;
       font-size: $fontSize;
     }

@@ -23,8 +23,13 @@
       .RightWz {
         width: 300px;
         height: 100px;
-        border: 1px solid lightgray;
+        // border: 1px solid lightgray;
         margin-left: 40px;
+        .nikeName {
+          font-size: 24rpx;
+          color: #fff;
+          line-height: 100rpx;
+        }
       }
     }
   }

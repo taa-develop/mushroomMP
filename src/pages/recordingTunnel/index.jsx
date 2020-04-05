@@ -11,8 +11,10 @@ class Recording extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      name: "",
-      ycText: "",
+      assayRecording: "",
+      rawMaterial: "",
+      Ingredients: "",
+      recordingName: "",
       selectorJd: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
       selectorJdValue: 0,
       selectorPc: ["第一批次", "第二批次", "第三批次", "第四批次", "第五批次"],
@@ -30,17 +32,12 @@ class Recording extends Component {
   componentDidMount() {}
 
   config = {
-    navigationBarTitleText: "菇房生产指标录入",
+    navigationBarTitleText: "隧道生产指标录入",
   };
 
-  handleChangeName(value) {
+  handleChangeName(value, name) {
     this.setState({
-      name: value,
-    });
-  }
-  handleChangeYc(value) {
-    this.setState({
-      ycText: value,
+      [name.currentTarget.id]: value,
     });
   }
 
@@ -68,25 +65,29 @@ class Recording extends Component {
   onSubmit(event) {
     console.log(event);
     let data = {
-      name: this.state.name,
+      assayRecording: this.state.assayRecording,
+      rawMaterial: this.state.rawMaterial,
+      Ingredients: this.state.Ingredients,
+      recordingName: this.state.recordingName,
       selectorJdValue: this.state.selectorJd[this.state.selectorJdValue],
       selectorPcValue: this.state.selectorPc[this.state.selectorPcValue],
       dateSel: this.state.dateSel,
       timeSel: this.state.timeSel,
-      ycText: this.state.ycText,
     };
     console.log("data: ", data);
   }
   render() {
     const {
-      name,
       selectorJd,
       selectorJdValue,
       selectorPc,
       selectorPcValue,
       dateSel,
       timeSel,
-      ycText,
+      assayRecording,
+      rawMaterial,
+      Ingredients,
+      recordingName,
     } = this.state;
     return (
       <View className="container">
@@ -173,23 +174,43 @@ class Recording extends Component {
 
           <View className="item">
             <AtInput
-              name="value"
-              title="记录人员"
+              name="rawMaterial"
+              title="原料"
               type="text"
-              placeholder="填写记录人员姓名"
-              value={name}
+              placeholder="填写原料"
+              value={rawMaterial}
               onChange={this.handleChangeName.bind(this)}
             />
           </View>
 
           <View className="item">
             <AtInput
-              name="ycText"
-              title="异常状况"
+              name="Ingredients"
+              title="配料"
               type="text"
-              placeholder="填写异常状况"
-              value={ycText}
-              onChange={this.handleChangeYc.bind(this)}
+              placeholder="填写配料"
+              value={Ingredients}
+              onChange={this.handleChangeName.bind(this)}
+            />
+          </View>
+          <View className="item">
+            <AtInput
+              name="assayRecording"
+              title="化验记录"
+              type="text"
+              placeholder="填写化验记录"
+              value={assayRecording}
+              onChange={this.handleChangeName.bind(this)}
+            />
+          </View>
+          <View className="item">
+            <AtInput
+              name="recordingName"
+              title="记录人员"
+              type="text"
+              placeholder="填写记录人员姓名"
+              value={recordingName}
+              onChange={this.handleChangeName.bind(this)}
             />
           </View>
 
