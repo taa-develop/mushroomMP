@@ -15,6 +15,7 @@ class Recording extends Component {
       rawMaterial: "",
       Ingredients: "",
       recordingName: "",
+      ycText:'',
       selectorJd: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
       selectorJdValue: 0,
       selectorPc: ["第一批次", "第二批次", "第三批次", "第四批次", "第五批次"],
@@ -88,11 +89,12 @@ class Recording extends Component {
       rawMaterial,
       Ingredients,
       recordingName,
+      ycText
     } = this.state;
     return (
       <View className="container">
         <AtForm onSubmit={this.onSubmit.bind(this)}>
-          
+
           <View className="item">
             <View className="panel">
               <View className="panel__content">
@@ -217,6 +219,16 @@ class Recording extends Component {
             />
           </View>
 
+          <View className="item">
+            <AtInput
+              name="ycText"
+              title="异常状况"
+              type="text"
+              placeholder="填写异常状况"
+              value={ycText}
+              onChange={this.handleChangeName.bind(this)}
+            />
+          </View>
           <View className="buttonGroup">
             <AtButton formType="submit" type="primary">
               提交

@@ -26,6 +26,7 @@ class App extends Component {
       "pages/user/index",
       "pages/userBind/index",
       "pages/roomManage/index",
+      "pages/roomBatch/index",
       "pages/recordingRoom/index",
       "pages/tunnelManage/index",
       "pages/recordingTunnel/index",

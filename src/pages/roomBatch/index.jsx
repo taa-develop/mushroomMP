@@ -2,7 +2,7 @@
 /* eslint-disable import/first */
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
-import { View } from "@tarojs/components";
+import { View, Text } from "@tarojs/components";
 import "./index.scss";
 import { AtButton, AtSwipeAction } from "taro-ui";
 
@@ -17,7 +17,7 @@ class RoomManage extends Component {
   componentDidMount() {}
 
   config = {
-    navigationBarTitleText: "菇房管理",
+    navigationBarTitleText: "批次管理",
   };
 
   handleAdd = () => {
@@ -35,17 +35,26 @@ class RoomManage extends Component {
       this.setState({
         isOpened: false,
       });
-    } else if (ckItem.text == "删除") {
+    } else if (ckItem.text == "关闭") {
       let filter = this.state.roomList.filter((f) => f !== index);
-      this.setState({
-        roomList: filter,
-      });
+      this.setState(
+        {
+          roomList: filter,
+        },
+        () => {
+          Taro.showToast({
+            title: "关闭成功",
+            icon: "success",
+            duration: 3000,
+          });
+        }
+      );
     }
   };
 
   handleItem = (indx) => {
     Taro.navigateTo({
-      url: `/pages/roomBatch/index?id=${indx}`,
+      url: `/pages/recordingRoom/index?id=${indx}`,
     });
   };
 
@@ -55,7 +64,7 @@ class RoomManage extends Component {
       <View className="container">
         <View className="header">
           <AtButton size="small" onClick={this.handleAdd}>
-            添加菇房
+            添加批次
           </AtButton>
         </View>
         <View className="items">
@@ -72,7 +81,7 @@ class RoomManage extends Component {
                   },
                 },
                 {
-                  text: "删除",
+                  text: "关闭",
                   style: {
                     backgroundColor: "#FF4949",
                   },
@@ -83,7 +92,25 @@ class RoomManage extends Component {
                 className="item"
                 onClick={this.handleItem.bind(this, indx + 1)}
               >
-                <View className="name">{v}号菇房</View>
+                <View className="name">第{v}批次</View>
+                <View className="wrapper">
+                  <View className="jdName">
+                    <Text>所处阶段：</Text>
+                    空阶段
+                  </View>
+                  <View className="pcName">
+                    <Text>记录人员：</Text>
+                    张三
+                  </View>
+                  <View className="abNormal">
+                    <Text> 是否异常：</Text>
+                    异常
+                  </View>
+                  <View className="pcDate">
+                    <Text> 记录时间：</Text>
+                    YYYY-MM-DD HH:mm
+                  </View>
+                </View>
                 <View className="at-icon at-icon-chevron-right"></View>
               </View>
             </AtSwipeAction>

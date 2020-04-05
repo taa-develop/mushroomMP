@@ -15,8 +15,6 @@ class Recording extends Component {
       ycText: "",
       selectorJd: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
       selectorJdValue: 0,
-      selectorPc: ["第一批次", "第二批次", "第三批次", "第四批次", "第五批次"],
-      selectorPcValue: 0,
       dateSel: dayjs().format("YYYY-MM-DD"),
       timeSel: dayjs().format("HH:mm"),
     };
@@ -30,7 +28,7 @@ class Recording extends Component {
   componentDidMount() {}
 
   config = {
-    navigationBarTitleText: "菇房生产指标录入",
+    navigationBarTitleText: "生产指标录入",
   };
 
   handleChangeName(value) {
@@ -49,11 +47,6 @@ class Recording extends Component {
       selectorJdValue: e.detail.value,
     });
   };
-  handleChangePc = (e) => {
-    this.setState({
-      selectorPcValue: e.detail.value,
-    });
-  };
   handleDateChange = (e) => {
     this.setState({
       dateSel: e.detail.value,
@@ -66,11 +59,9 @@ class Recording extends Component {
   };
 
   onSubmit(event) {
-    console.log(event);
     let data = {
       name: this.state.name,
       selectorJdValue: this.state.selectorJd[this.state.selectorJdValue],
-      selectorPcValue: this.state.selectorPc[this.state.selectorPcValue],
       dateSel: this.state.dateSel,
       timeSel: this.state.timeSel,
       ycText: this.state.ycText,
@@ -82,8 +73,6 @@ class Recording extends Component {
       name,
       selectorJd,
       selectorJdValue,
-      selectorPc,
-      selectorPcValue,
       dateSel,
       timeSel,
       ycText,
@@ -91,28 +80,6 @@ class Recording extends Component {
     return (
       <View className="container">
         <AtForm onSubmit={this.onSubmit.bind(this)}>
-          <View className="item">
-            <View className="panel">
-              <View className="panel__content">
-                <View className="example-item">
-                  <Picker
-                    mode="selector"
-                    range={selectorPc}
-                    value={selectorPcValue}
-                    onChange={this.handleChangePc}
-                  >
-                    <View className="demo-list-item">
-                      <View className="demo-list-item__label">所处批次</View>
-                      <View className="demo-list-item__value">
-                        {selectorPc[selectorPcValue]}
-                      </View>
-                    </View>
-                  </Picker>
-                </View>
-              </View>
-            </View>
-          </View>
-
           <View className="item">
             <View className="panel">
               <View className="panel__content">

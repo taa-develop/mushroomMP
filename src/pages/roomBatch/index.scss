@@ -1,0 +1,38 @@
+$fontSize: 24rpx;
+
+.container {
+  height: 100%;
+  box-sizing: border-box;
+  .header {
+    height: 80rpx;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: white;
+    font-size: $fontSize;
+    font-weight: bold;
+    padding: 0 20rpx;
+  }
+  .items {
+    .at-swipe-action__option {
+      height: 70%;
+    }
+    .item {
+      height: 200rpx;
+      border-radius: 10rpx;
+      background-color: white;
+      margin: 20rpx 20rpx;
+      box-shadow: 0 4rpx 30rpx 0 rgba(4, 59, 85, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20rpx;
+      font-weight: bold;
+      font-size: $fontSize;
+      .wrapper {
+        font-weight: normal;
+        width: 460rpx;
+      }
+    }
+  }
+}
