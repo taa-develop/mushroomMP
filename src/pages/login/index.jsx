@@ -11,23 +11,29 @@ class Index extends Component {
   };
   handleGetUserInfo = (e) => {
     console.log("e: ", e);
-    if (e.detail.errMsg == "getUserInfo:ok") {
-      Taro.showToast({
-        title: "登录成功",
-        icon: "success",
-        duration: 3000,
-      }).then((res) => {
-        if (res.errMsg == "showToast:ok") {
-          Taro.setStorage({
-            key: "userInfo",
-            data: e.detail.userInfo
-          })
-          Taro.switchTab({
-            url: "/pages/index/index",
-          });
-        }
-      });
-    }
+    // if (e.detail.errMsg == "getUserInfo:ok") {
+    //   Taro.showToast({
+    //     title: "登录成功",
+    //     icon: "success",
+    //     duration: 3000,
+    //   }).then((res) => {
+    //     if (res.errMsg == "showToast:ok") {
+    //       Taro.setStorage({
+    //         key: "userInfo",
+    //         data: e.detail.userInfo
+    //       })
+    //       Taro.switchTab({
+    //         url: "/pages/index/index",
+    //       });
+    //     }
+    //   });
+    // }
+
+    Taro.navigateTo(
+      {
+        url: "/pages/index/index",
+      }
+    )
   };
   render() {
     return (

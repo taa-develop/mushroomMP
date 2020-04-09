@@ -29,53 +29,16 @@ class App extends Component {
       "pages/roomBatch/index",
       "pages/recordingRoom/index",
       "pages/tunnelManage/index",
+      "pages/tunnelBatch/index",
       "pages/recordingTunnel/index",
-      "pages/dataManage/index",
+      "pages/dataManage/index"
     ],
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fff",
       navigationBarTitleText: "WeChat",
-      navigationBarTextStyle: "black",
-    },
-    tabBar: {
-      color: "#666",
-      selectedColor: "#1D5181",
-      backgroundColor: "#fafafa",
-      borderStyle: "black",
-      list: [
-        {
-          pagePath: "pages/index/index",
-          iconPath: "./assets/new-home.png",
-          selectedIconPath: "./assets/new-home-active.png",
-          text: "首页",
-        },
-        {
-          pagePath: "pages/roomManage/index",
-          iconPath: "./assets/room.png",
-          selectedIconPath: "./assets/room-active.png",
-          text: "菇房管理",
-        },
-        {
-          pagePath: "pages/tunnelManage/index",
-          iconPath: "./assets/tunnel.png",
-          selectedIconPath: "./assets/tunnel-active.png",
-          text: "隧道管理",
-        },
-        {
-          pagePath: "pages/dataManage/index",
-          iconPath: "./assets/data.png",
-          selectedIconPath: "./assets/data-active.png",
-          text: "数据管理",
-        },
-        {
-          pagePath: "pages/user/index",
-          iconPath: "./assets/user.png",
-          selectedIconPath: "./assets/user-active.png",
-          text: "我的",
-        },
-      ],
-    },
+      navigationBarTextStyle: "black"
+    }
   };
   componentDidShow() {}
 

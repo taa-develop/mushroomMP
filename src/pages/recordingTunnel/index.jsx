@@ -15,13 +15,13 @@ class Recording extends Component {
       rawMaterial: "",
       Ingredients: "",
       recordingName: "",
-      ycText:'',
+      ycText: "",
       selectorJd: ["空阶段", "发菌阶段", "覆土阶段", "最后阶段"],
       selectorJdValue: 0,
-      selectorPc: ["第一批次", "第二批次", "第三批次", "第四批次", "第五批次"],
-      selectorPcValue: 0,
+      selectorLc: ["一号料仓", "二号料仓", "三号料仓", "四号料仓", "五号料仓"],
+      selectorLcValue: 0,
       dateSel: dayjs().format("YYYY-MM-DD"),
-      timeSel: dayjs().format("HH:mm"),
+      timeSel: dayjs().format("HH:mm")
     };
   }
 
@@ -33,33 +33,33 @@ class Recording extends Component {
   componentDidMount() {}
 
   config = {
-    navigationBarTitleText: "隧道生产指标录入",
+    navigationBarTitleText: "隧道生产指标录入"
   };
 
   handleChangeName(value, name) {
     this.setState({
-      [name.currentTarget.id]: value,
+      [name.currentTarget.id]: value
     });
   }
 
-  handleChangeJd = (e) => {
+  handleChangeJd = e => {
     this.setState({
-      selectorJdValue: e.detail.value,
+      selectorJdValue: e.detail.value
     });
   };
-  handleChangePc = (e) => {
+  handleChangePc = e => {
     this.setState({
-      selectorPcValue: e.detail.value,
+      selectorLcValue: e.detail.value
     });
   };
-  handleDateChange = (e) => {
+  handleDateChange = e => {
     this.setState({
-      dateSel: e.detail.value,
+      dateSel: e.detail.value
     });
   };
-  handleTimeChange = (e) => {
+  handleTimeChange = e => {
     this.setState({
-      timeSel: e.detail.value,
+      timeSel: e.detail.value
     });
   };
 
@@ -71,9 +71,9 @@ class Recording extends Component {
       Ingredients: this.state.Ingredients,
       recordingName: this.state.recordingName,
       selectorJdValue: this.state.selectorJd[this.state.selectorJdValue],
-      selectorPcValue: this.state.selectorPc[this.state.selectorPcValue],
+      selectorLcValue: this.state.selectorLc[this.state.selectorLcValue],
       dateSel: this.state.dateSel,
-      timeSel: this.state.timeSel,
+      timeSel: this.state.timeSel
     };
     console.log("data: ", data);
   }
@@ -81,8 +81,8 @@ class Recording extends Component {
     const {
       selectorJd,
       selectorJdValue,
-      selectorPc,
-      selectorPcValue,
+      selectorLc,
+      selectorLcValue,
       dateSel,
       timeSel,
       assayRecording,
@@ -94,21 +94,20 @@ class Recording extends Component {
     return (
       <View className="container">
         <AtForm onSubmit={this.onSubmit.bind(this)}>
-
           <View className="item">
             <View className="panel">
               <View className="panel__content">
                 <View className="example-item">
                   <Picker
                     mode="selector"
-                    range={selectorPc}
-                    value={selectorPcValue}
+                    range={selectorLc}
+                    value={selectorLcValue}
                     onChange={this.handleChangePc}
                   >
                     <View className="demo-list-item">
-                      <View className="demo-list-item__label">所处批次</View>
+                      <View className="demo-list-item__label">选择料仓</View>
                       <View className="demo-list-item__value">
-                        {selectorPc[selectorPcValue]}
+                        {selectorLc[selectorLcValue]}
                       </View>
                     </View>
                   </Picker>
