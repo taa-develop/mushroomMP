@@ -4,15 +4,16 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import { AtButton, AtSwipeAction } from "taro-ui";
+import { AtButton, AtSwipeAction, AtDivider } from "taro-ui";
 import { connect } from "@tarojs/redux";
 import { dispatchTunnelBatchList } from "../../actions/tunnelBatch";
 import "./index.scss";
 
 @connect(
   state => {
-    console.log("state: ", state);
-    return state;
+    return {
+      batchList: state.tunnelBatch.list.batchList
+    };
   },
   { dispatchTunnelBatchList }
 )
@@ -97,6 +98,8 @@ class TunnelBatch extends Component {
 
   render() {
     const { roomList } = this.state;
+    const { batchList } = this.props;
+    console.log("batchList: ", batchList);
     return (
       <View className="container">
         <View className="header">
@@ -105,53 +108,72 @@ class TunnelBatch extends Component {
           </AtButton>
         </View>
         <View className="items">
-          {roomList.map((v, indx) => (
-            <AtSwipeAction
-              key={indx}
-              onClick={this.handleAction.bind(this, indx + 1)}
-              isOpened={this.state.isOpened}
-              options={[
-                {
-                  text: "取消",
-                  style: {
-                    backgroundColor: "#6190E8"
+          {batchList &&
+            batchList.map((v, indx) => (
+              <AtSwipeAction
+                key={indx}
+                onClick={this.handleAction.bind(this, indx + 1)}
+                isOpened={this.state.isOpened}
+                options={[
+                  {
+                    text: "取消",
+                    style: {
+                      backgroundColor: "#6190E8"
+                    }
+                  },
+                  {
+                    text: "关闭",
+                    style: {
+                      backgroundColor: "#FF4949"
+                    }
                   }
-                },
-                {
-                  text: "关闭",
-                  style: {
-                    backgroundColor: "#FF4949"
-                  }
-                }
-              ]}
-            >
-              <View
-                className="item"
-                onClick={this.handleItem.bind(this, indx + 1)}
+                ]}
               >
-                <View className="name">第{v}批次</View>
-                <View className="wrapper">
-                  <View className="jdName">
-                    <Text>所处阶段：</Text>
-                    空阶段
+                <View
+                  className="item"
+                  onClick={this.handleItem.bind(this, indx + 1)}
+                >
+                  <View className="itemUpContent">
+                    <View className="itemUpContentItem">
+                      <View className="fileds">
+                        <Text>批次：</Text>
+                        {v.number}
+                      </View>
+                      <View className="fileds">
+                        <Text>仓号：</Text>
+                        {v.silo.name}
+                      </View>
+                    </View>
+                    <View className="itemUpContentItem bottom-Line">
+                      <View className="fileds">
+                        <Text>记录：</Text>
+                        {v.id}
+                      </View>
+                      <View className="fileds">
+                        <Text>记录员：</Text>张三
+                      </View>
+                    </View>
                   </View>
-                  <View className="pcName">
-                    <Text>记录人员：</Text>
-                    张三
-                  </View>
-                  <View className="abNormal">
-                    <Text> 是否异常：</Text>
-                    异常
-                  </View>
-                  <View className="pcDate">
-                    <Text> 记录时间：</Text>
-                    YYYY-MM-DD HH:mm
+                  <AtDivider />
+                  <View className="itemDownContent">
+                    <View className="downWrapper">
+                      <Text> 开始时间：</Text>
+                      {v.startTime}
+                      <Text className="status">
+                        {v.status == 0
+                          ? "未开始"
+                          : v.status == 1
+                          ? "未完成"
+                          : v.status == 2
+                          ? "已结束"
+                          : null}
+                      </Text>
+                    </View>
+                    <View className="at-icon at-icon-chevron-right"></View>
                   </View>
                 </View>
-                <View className="at-icon at-icon-chevron-right"></View>
-              </View>
-            </AtSwipeAction>
-          ))}
+              </AtSwipeAction>
+            ))}
         </View>
       </View>
     );
