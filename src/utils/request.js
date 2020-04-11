@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import Taro from '@tarojs/taro'
-import { API_USER, API_USER_LOGIN } from '@constants/api'
+import { API_USER, API_USER_LOGIN } from '../constants/api'
 
 const CODE_SUCCESS = '200'
 const CODE_AUTH_EXPIRED = '600'
@@ -42,15 +43,15 @@ export default async function fetch(options) {
       return Promise.reject(res.data)
     }
 
-    if (url === API_USER_LOGIN) {
-      await updateStorage(data)
-    }
+    // if (url === API_USER_LOGIN) {
+    //   await updateStorage(data)
+    // }
 
-    // XXX 用户信息需展示 uid，但是 uid 是登录接口就返回的，比较蛋疼，暂时糅合在 fetch 中解决
-    if (url === API_USER) {
-      const uid = await getStorage('uid')
-      return { ...data, uid }
-    }
+    // // XXX 用户信息需展示 uid，但是 uid 是登录接口就返回的，比较蛋疼，暂时糅合在 fetch 中解决
+    // if (url === API_USER) {
+    //   const uid = await getStorage('uid')
+    //   return { ...data, uid }
+    // }
 
     return data
   }).catch((err) => {

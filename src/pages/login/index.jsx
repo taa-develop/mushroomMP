@@ -7,33 +7,58 @@ import "./index.scss";
 class Index extends Component {
   componentDidMount() {}
   config = {
-    navigationBarTitleText: "登录",
+    navigationBarTitleText: "登录"
   };
-  handleGetUserInfo = (e) => {
+  handleGetUserInfo = e => {
     console.log("e: ", e);
-    // if (e.detail.errMsg == "getUserInfo:ok") {
-    //   Taro.showToast({
-    //     title: "登录成功",
-    //     icon: "success",
-    //     duration: 3000,
-    //   }).then((res) => {
-    //     if (res.errMsg == "showToast:ok") {
-    //       Taro.setStorage({
-    //         key: "userInfo",
-    //         data: e.detail.userInfo
-    //       })
-    //       Taro.switchTab({
-    //         url: "/pages/index/index",
-    //       });
-    //     }
-    //   });
-    // }
-
-    Taro.navigateTo(
-      {
-        url: "/pages/index/index",
+    let uInfo = {
+      avatarUrl: e.detail.userInfo.avatarUrl,
+      gender: e.detail.userInfo.gender == 1 ? "MAN" : "WOMAN",
+      nickName: e.detail.userInfo.nickName,
+      country: e.detail.userInfo.country,
+      province: e.detail.userInfo.province,
+      city: e.detail.userInfo.city
+    };
+    Taro.setStorage({
+      key: "userInfo",
+      data: e.detail.userInfo
+    });
+    Taro.login({
+      success: function(res) {
+        if (res.code) {
+          Taro.request({
+            url: "https://api.yiquanxinhe.com/graphql",
+            data: {
+              query: `mutation WeLogin($code: String!,$userinfo:InputWeChatUser) {
+                  weChatLogin(code: $code,userinfo: $userinfo) {
+                    token
+                  }
+                }`,
+              variables: { code: res.code, userinfo: uInfo }
+            },
+            method: "POST",
+            success: function(resp) {
+              if (resp.statusCode == 200) {
+                Taro.showToast({
+                  title: "登录成功",
+                  icon: "success",
+                  duration: 3000
+                });
+                Taro.setStorage({
+                  key: "token",
+                  data: resp.data.data.weChatLogin.token
+                });
+                Taro.navigateTo({
+                  url: "/pages/roomManage/index"
+                });
+              }
+            }
+          });
+        } else {
+          console.log("登录失败！" + res.errMsg);
+        }
       }
-    )
+    });
   };
   render() {
     return (

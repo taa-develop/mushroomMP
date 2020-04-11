@@ -1,3 +1,4 @@
+/* eslint-disable taro/this-props-function */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/first */
 /* eslint-disable jsx-quotes */
@@ -6,25 +7,64 @@ import { View, Text } from "@tarojs/components";
 import "./index.scss";
 import { AtButton, AtSwipeAction } from "taro-ui";
 
-class RoomManage extends Component {
+class TunnelBatch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      roomList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    Taro.request({
+      url: "https://api.yiquanxinhe.com/graphql",
+      header: {
+        authorization: `Bearer ${Taro.getStorageSync("token")}`
+      },
+      data: {
+        query: `{
+          batchList(pageQuery:{
+            pageNum:1,
+            pageSize:10
+          },
+          batchQuery:{
+            environment: ONCE_TUNNEL
+          }
+          ){
+            id
+            environment
+            number
+            status
+            startTime
+            endTime
+            silo{
+              id
+              name
+            }
+            stage{
+              stageName
+            }
+          }
+        }`
+      },
+      method: "get",
+      success: function(resp) {
+        if (resp.statusCode == 200) {
+          console.log("resp: ", resp);
+        }
+      }
+    });
+  }
 
   config = {
-    navigationBarTitleText: "批次管理",
+    navigationBarTitleText: "批次管理"
   };
 
   handleAdd = () => {
     let arr = this.state.roomList.push(this.state.roomList.length + 1);
     this.setState(
       {
-        roomList: [...this.state.roomList, ...arr],
+        roomList: [...this.state.roomList, ...arr]
       },
       () => console.log(this.state.roomList)
     );
@@ -33,28 +73,28 @@ class RoomManage extends Component {
   handleAction = (index, ckItem, event) => {
     if (ckItem.text == "取消") {
       this.setState({
-        isOpened: false,
+        isOpened: false
       });
     } else if (ckItem.text == "关闭") {
-      let filter = this.state.roomList.filter((f) => f !== index);
+      let filter = this.state.roomList.filter(f => f !== index);
       this.setState(
         {
-          roomList: filter,
+          roomList: filter
         },
         () => {
           Taro.showToast({
             title: "关闭成功",
             icon: "success",
-            duration: 3000,
+            duration: 3000
           });
         }
       );
     }
   };
 
-  handleItem = (indx) => {
+  handleItem = indx => {
     Taro.navigateTo({
-      url: `/pages/recordingTunnel/index?id=${indx}`,
+      url: `/pages/recordingTunnel/index?id=${indx}`
     });
   };
 
@@ -77,15 +117,15 @@ class RoomManage extends Component {
                 {
                   text: "取消",
                   style: {
-                    backgroundColor: "#6190E8",
-                  },
+                    backgroundColor: "#6190E8"
+                  }
                 },
                 {
                   text: "关闭",
                   style: {
-                    backgroundColor: "#FF4949",
-                  },
-                },
+                    backgroundColor: "#FF4949"
+                  }
+                }
               ]}
             >
               <View
@@ -121,4 +161,4 @@ class RoomManage extends Component {
   }
 }
 
-export default RoomManage;
+export default TunnelBatch;
