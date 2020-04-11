@@ -4,9 +4,18 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import "./index.scss";
 import { AtButton, AtSwipeAction } from "taro-ui";
+import { connect } from "@tarojs/redux";
+import { dispatchTunnelBatchList } from "../../actions/tunnelBatch";
+import "./index.scss";
 
+@connect(
+  state => {
+    console.log("state: ", state);
+    return state;
+  },
+  { dispatchTunnelBatchList }
+)
 class TunnelBatch extends Component {
   constructor(props) {
     super(props);
@@ -16,43 +25,31 @@ class TunnelBatch extends Component {
   }
 
   componentDidMount() {
-    Taro.request({
-      url: "https://api.yiquanxinhe.com/graphql",
-      header: {
-        authorization: `Bearer ${Taro.getStorageSync("token")}`
-      },
-      data: {
-        query: `{
-          batchList(pageQuery:{
-            pageNum:1,
-            pageSize:10
-          },
-          batchQuery:{
-            environment: ONCE_TUNNEL
-          }
-          ){
-            id
-            environment
-            number
-            status
-            startTime
-            endTime
-            silo{
-              id
-              name
-            }
-            stage{
-              stageName
-            }
-          }
-        }`
-      },
-      method: "get",
-      success: function(resp) {
-        if (resp.statusCode == 200) {
-          console.log("resp: ", resp);
+    this.props.dispatchTunnelBatchList({
+      query: `{
+        batchList(pageQuery:{
+          pageNum:1,
+          pageSize:10
+        },
+        batchQuery:{
+          environment: ONCE_TUNNEL
         }
-      }
+        ){
+          id
+          environment
+          number
+          status
+          startTime
+          endTime
+          silo{
+            id
+            name
+          }
+          stage{
+            stageName
+          }
+        }
+      }`
     });
   }
 
