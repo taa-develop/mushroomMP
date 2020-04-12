@@ -24,7 +24,7 @@ function updateStorage(data = {}) {
  * @param {*} options
  */
 export default async function fetch(options) {
-  console.log('options: ', options);
+  console.log("options: ", options);
   const {
     url,
     payload,
@@ -34,20 +34,34 @@ export default async function fetch(options) {
   } = options;
   const token = await getStorage("token");
   const header = token ? { authorization: `Bearer ${token}` } : {};
+
   if (method === "POST") {
     header["content-type"] = "application/json";
+  }
+
+  let paramData = {};
+
+  if (method == "GET") {
+    paramData = {
+      query: payload.query
+    };
+  }
+  if (method == "POST") {
+    paramData = {
+      query: payload.query,
+      variables: { ...payload.variables }
+    };
   }
 
   return Taro.request({
     url,
     method,
-    data: {
-      query: payload.query
-    },
+    data: paramData,
     header
   })
     .then(async res => {
       const { code, data } = res.data;
+
       // if (code !== CODE_SUCCESS) {
       //   if (code === CODE_AUTH_EXPIRED) {
       //     await updateStorage({});

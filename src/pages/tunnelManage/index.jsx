@@ -9,8 +9,17 @@ class TunnelManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current:1,
-      roomList: ["一次隧道", "二次隧道"]
+      current: 1,
+      roomList: [
+        {
+          key: "ONCE_TUNNEL",
+          name: "一次隧道"
+        },
+        {
+          key: "TWICE_TUNNEL",
+          name: "二次隧道"
+        }
+      ]
     };
   }
   componentDidMount() {}
@@ -18,22 +27,9 @@ class TunnelManage extends Component {
     navigationBarTitleText: "隧道管理"
   };
 
-  handleAction = (index, ckItem) => {
-    if (ckItem.text == "取消") {
-      this.setState({
-        isOpened: false
-      });
-    } else if (ckItem.text == "删除") {
-      let filter = this.state.roomList.filter(f => f !== index);
-      this.setState({
-        roomList: filter
-      });
-    }
-  };
-
-  handleItem = indx => {
+  handleItem = name => {
     Taro.navigateTo({
-      url: `/pages/tunnelBatch/index?id=${indx}`
+      url: `/pages/tunnelBatch/index?id=${name}`
     });
   };
   handleClick(value) {
@@ -67,33 +63,14 @@ class TunnelManage extends Component {
         <View className="container">
           <View className="items">
             {roomList.map((v, indx) => (
-              <AtSwipeAction
-                key={indx}
-                onClick={this.handleAction.bind(this, indx + 1)}
-                isOpened={this.state.isOpened}
-                options={[
-                  {
-                    text: "取消",
-                    style: {
-                      backgroundColor: "#6190E8"
-                    }
-                  },
-                  {
-                    text: "删除",
-                    style: {
-                      backgroundColor: "#FF4949"
-                    }
-                  }
-                ]}
+              <View
+                key={v.key}
+                className="item"
+                onClick={this.handleItem.bind(this, v.key)}
               >
-                <View
-                  className="item"
-                  onClick={this.handleItem.bind(this, indx + 1)}
-                >
-                  <View className="name">{v}</View>
-                  <View className="at-icon at-icon-chevron-right"></View>
-                </View>
-              </AtSwipeAction>
+                <View className="name">{v.name}</View>
+                <View className="at-icon at-icon-chevron-right"></View>
+              </View>
             ))}
           </View>
         </View>

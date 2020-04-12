@@ -10,7 +10,6 @@ class Index extends Component {
     navigationBarTitleText: "登录"
   };
   handleGetUserInfo = e => {
-    console.log("e: ", e);
     let uInfo = {
       avatarUrl: e.detail.userInfo.avatarUrl,
       gender: e.detail.userInfo.gender == 1 ? "MAN" : "WOMAN",
