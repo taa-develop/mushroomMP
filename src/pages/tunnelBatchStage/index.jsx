@@ -4,117 +4,97 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import { AtButton, AtDivider } from "taro-ui";
+import { AtDivider } from "taro-ui";
 import { connect } from "@tarojs/redux";
-import { dispatchTunnelBatchList } from "../../actions/tunnelBatch";
+import { dispatchStageByTunnelBatchList } from "../../actions/tunnelBatch";
 import "./index.scss";
 
 @connect(
   state => {
     return {
-      batchList: state.tunnelBatch.list.batchList
+      stageBatchList: state.tunnelBatch.list.stageListByBatchId
     };
   },
-  { dispatchTunnelBatchList }
+  { dispatchStageByTunnelBatchList }
 )
-class TunnelBatch extends Component {
+class TunnelBatchStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tunnelKey: ""
+      id: ""
     };
   }
-
   componentWillMount() {
-    let tunnelKey = this.$router.params.id;
+    let id = this.$router.params.id;
+    console.log("id: ", id);
     this.setState({
-      tunnelKey
+      id
     });
   }
-
   componentDidMount() {
-    this.props.dispatchTunnelBatchList({
+    this.props.dispatchStageByTunnelBatchList({
       query: `{
-        batchList(pageQuery:{
+        stageListByBatchId(pageQuery:{
           pageNum:1,
           pageSize:10
         },
-        batchQuery:{
-          environment: ONCE_TUNNEL
-        }
+        batchId:${this.state.id}
         ){
           id
           environment
-          number
-          status
+          batchId
+          stageName
+          recorder
+          recordCount
           startTime
           endTime
-          silo{
-            id
-            name
-          }
-          stage{
-            stageName
-          }
+          status
         }
       }`
     });
   }
 
   config = {
-    navigationBarTitleText: "批次管理"
+    navigationBarTitleText: "批次阶段"
   };
 
-  handleAdd = () => {
+  handleItem = indx => {
     Taro.navigateTo({
-      url: `/pages/addTunnelBatch/index?id=${this.state.tunnelKey}`
+      url: `/pages/recordingTunnel/index?id=${indx}`
     });
-  };
-
-  handleItem = id => {
-    Taro.navigateTo({
-      url: `/pages/tunnelBatchStage/index?id=${id}`
-    });
-    // Taro.navigateTo({
-    //   url: `/pages/recordingTunnel/index?id=${indx}`
-    // });
   };
 
   render() {
-    const { batchList } = this.props;
+    const { stageBatchList } = this.props;
     return (
       <View className="container">
-        <View className="header">
-          <AtButton size="small" onClick={this.handleAdd}>
-            添加批次
-          </AtButton>
-        </View>
         <View className="items">
-          {batchList &&
-            batchList.map((v, indx) => (
+          {stageBatchList &&
+            stageBatchList.map((v, indx) => (
               <View
                 key={indx}
                 className="item"
-                onClick={this.handleItem.bind(this, v.id)}
+                onClick={this.handleItem.bind(this, indx + 1)}
               >
                 <View className="itemUpContent">
                   <View className="itemUpContentItem">
                     <View className="fileds">
-                      <Text>批次：</Text>
-                      {v.number}
+                      <Text>阶段：</Text>
+                      {v.stageName}
                     </View>
                     <View className="fileds">
-                      <Text>仓号：</Text>
-                      {v.silo.name}
+                      <Text>序号：</Text>
+                      {indx + 1}
                     </View>
                   </View>
                   <View className="itemUpContentItem bottom-Line">
                     <View className="fileds">
-                      <Text>记录：</Text>
-                      {v.id}
+                      <Text>记录数：</Text>
+                      {v.recordCount}
                     </View>
                     <View className="fileds">
-                      <Text>记录员：</Text>张三
+                      <Text>记录员：</Text>
+                      {v.recorder}
                     </View>
                   </View>
                 </View>
@@ -143,4 +123,4 @@ class TunnelBatch extends Component {
   }
 }
 
-export default TunnelBatch;
+export default TunnelBatchStage;

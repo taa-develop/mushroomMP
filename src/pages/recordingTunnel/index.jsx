@@ -64,7 +64,6 @@ class Recording extends Component {
   };
 
   onSubmit(event) {
-    console.log(event);
     let data = {
       assayRecording: this.state.assayRecording,
       rawMaterial: this.state.rawMaterial,
@@ -77,6 +76,9 @@ class Recording extends Component {
     };
     console.log("data: ", data);
   }
+  handleComplete = () => {
+    console.log("complete");
+  };
   render() {
     const {
       selectorJd,
@@ -230,7 +232,10 @@ class Recording extends Component {
           </View>
           <View className="buttonGroup">
             <AtButton formType="submit" type="primary">
-              提交
+              提交记录
+            </AtButton>
+            <AtButton type="secondary" onClick={this.handleComplete}>
+              完成阶段
             </AtButton>
           </View>
         </AtForm>

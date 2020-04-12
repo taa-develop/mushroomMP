@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
-import { TUNNELBATCHLIST, TUNNELBATCH_ADD } from "../constants/tunnelBatch";
+import {
+  TUNNELBATCHLIST,
+  TUNNELBATCH_ADD,
+  STAGETUNNELBATCHLIST
+} from "../constants/tunnelBatch";
 
 import { API_TUNNELBATCHLIST } from "../constants/api";
 
@@ -18,6 +22,13 @@ export const dispatchAddTunnelBatch = payload => {
     url: API_TUNNELBATCHLIST,
     method: "POST",
     type: TUNNELBATCH_ADD,
+    payload
+  });
+};
+export const dispatchStageByTunnelBatchList = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    type: STAGETUNNELBATCHLIST,
     payload
   });
 };
