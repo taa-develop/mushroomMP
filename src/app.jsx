@@ -32,6 +32,8 @@ class App extends Component {
       "pages/tunnelBatch/index",
       "pages/addTunnelBatch/index",
       "pages/tunnelBatchStage/index",
+      "pages/tunnelBatchStageRecording/index",
+      "pages/addTunnelBatchStageRecording/index",
       "pages/recordingTunnel/index",
       "pages/dataManage/index"
     ],

@@ -1,6 +1,8 @@
 import {
   TUNNELBATCHLIST,
-  STAGETUNNELBATCHLIST
+  STAGETUNNELBATCHLIST,
+  INDICATORSLIST,
+  RECORDTUNNELBATCHLIST
 } from "../constants/tunnelBatch";
 
 const INITIAL_STATE = {
@@ -15,6 +17,16 @@ export default function tunnelBatch(state = INITIAL_STATE, action) {
         list: action.payload
       };
     case STAGETUNNELBATCHLIST:
+      return {
+        ...state,
+        list: action.payload
+      };
+    case INDICATORSLIST:
+      return {
+        ...state,
+        list: action.payload
+      };
+    case RECORDTUNNELBATCHLIST:
       return {
         ...state,
         list: action.payload

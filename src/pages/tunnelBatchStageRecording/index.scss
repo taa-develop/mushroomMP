@@ -1,0 +1,73 @@
+$fontSize: 24rpx;
+
+.container {
+  height: 100%;
+  box-sizing: border-box;
+  .header {
+    height: 80rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    font-size: $fontSize;
+    font-weight: bold;
+    padding: 0 20rpx;
+  }
+  .items {
+    .at-swipe-action__option {
+      height: 70%;
+    }
+    .item {
+      height: 200rpx;
+      border-radius: 10rpx;
+      background-color: white;
+      margin: 20rpx 20rpx;
+      box-shadow: 0 4rpx 30rpx 0 rgba(4, 59, 85, 0.15);
+      padding: 10rpx 20rpx;
+      // font-weight: bold;
+      font-size: $fontSize;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .itemUpContent {
+        .itemUpContentItem {
+          height: 60rpx;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          .fileds {
+            width: 180rpx;
+            font-weight: bold;
+            text {
+              width: 80rpx;
+              color: #616367;
+            }
+          }
+        }
+      }
+      .itemDownContent {
+        height: 60rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .downWrapper {
+          margin-left: 20rpx;
+          text {
+            font-weight: bold;
+            color: #616367;
+          }
+          .status {
+            margin-left: 30rpx;
+            color: #fff;
+            background-color: #50a14f;
+            padding: 0 8rpx;
+            border-radius: 6rpx;
+          }
+        }
+      }
+      .at-divider {
+        height: 10rpx;
+      }
+    }
+  }
+}

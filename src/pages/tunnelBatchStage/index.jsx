@@ -26,7 +26,6 @@ class TunnelBatchStage extends Component {
   }
   componentWillMount() {
     let id = this.$router.params.id;
-    console.log("id: ", id);
     this.setState({
       id
     });
@@ -58,9 +57,9 @@ class TunnelBatchStage extends Component {
     navigationBarTitleText: "批次阶段"
   };
 
-  handleItem = indx => {
+  handleItem = (stageId, batchId) => {
     Taro.navigateTo({
-      url: `/pages/recordingTunnel/index?id=${indx}`
+      url: `/pages/tunnelBatchStageRecording/index?stageId=${stageId}&batchId=${batchId}`
     });
   };
 
@@ -74,7 +73,7 @@ class TunnelBatchStage extends Component {
               <View
                 key={indx}
                 className="item"
-                onClick={this.handleItem.bind(this, indx + 1)}
+                onClick={this.handleItem.bind(this, v.id, v.batchId)}
               >
                 <View className="itemUpContent">
                   <View className="itemUpContentItem">

@@ -3,7 +3,10 @@
 import {
   TUNNELBATCHLIST,
   TUNNELBATCH_ADD,
-  STAGETUNNELBATCHLIST
+  STAGETUNNELBATCHLIST,
+  TUNNELBATCH_RECORD_ADD,
+  INDICATORSLIST,
+  RECORDTUNNELBATCHLIST
 } from "../constants/tunnelBatch";
 
 import { API_TUNNELBATCHLIST } from "../constants/api";
@@ -25,10 +28,35 @@ export const dispatchAddTunnelBatch = payload => {
     payload
   });
 };
+export const dispatchAddTunnelBatchRecord = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    method: "POST",
+    type: TUNNELBATCH_RECORD_ADD,
+    payload
+  });
+};
+
+
 export const dispatchStageByTunnelBatchList = payload => {
   return createAction({
     url: API_TUNNELBATCHLIST,
     type: STAGETUNNELBATCHLIST,
+    payload
+  });
+};
+export const dispatchRecordByTunnelBatchList = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    type: RECORDTUNNELBATCHLIST,
+    payload
+  });
+};
+
+export const dispatchIndicatorsList = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    type: INDICATORSLIST,
     payload
   });
 };
