@@ -46,17 +46,17 @@ class User extends Component {
       },
       () => {
         if (this.state.current == 0) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/roomManage/index"
           });
         }
         if (this.state.current == 1) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/tunnelManage/index"
           });
         }
         if (this.state.current == 2) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/user/index"
           });
         }

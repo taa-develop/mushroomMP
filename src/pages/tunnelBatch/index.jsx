@@ -49,6 +49,8 @@ class TunnelBatch extends Component {
           status
           startTime
           endTime
+          recorder
+          recordCount
           silo{
             id
             name
@@ -82,7 +84,7 @@ class TunnelBatch extends Component {
     return (
       <View className="container">
         <View className="header">
-          <AtButton size="small" onClick={this.handleAdd}>
+          <AtButton type="primary" onClick={this.handleAdd}>
             添加批次
           </AtButton>
         </View>
@@ -108,27 +110,30 @@ class TunnelBatch extends Component {
                   <View className="itemUpContentItem bottom-Line">
                     <View className="fileds">
                       <Text>记录：</Text>
-                      {v.id}
+                      {v.recordCount}
                     </View>
                     <View className="fileds">
-                      <Text>记录员：</Text>张三
+                      <Text>记录员：</Text>
+                      {v.recorder}
                     </View>
+                  </View>
+                  <View className="TagBox">
+                    {v.status == 0 && (
+                      <Text className="status_wxs">未开始</Text>
+                    )}
+                    {v.status == 1 && (
+                      <Text className="status_wwc">未完成</Text>
+                    )}
+                    {v.status == 2 && (
+                      <Text className="status_yjs">已结束</Text>
+                    )}
                   </View>
                 </View>
                 <AtDivider />
                 <View className="itemDownContent">
                   <View className="downWrapper">
                     <Text> 开始时间：</Text>
-                    {v.startTime}
-                    <Text className="status">
-                      {v.status == 0
-                        ? "未开始"
-                        : v.status == 1
-                        ? "未完成"
-                        : v.status == 2
-                        ? "已结束"
-                        : null}
-                    </Text>
+                    {v.startTime == "-1" ? "" : v.startTime}
                   </View>
                   <View className="at-icon at-icon-chevron-right"></View>
                 </View>

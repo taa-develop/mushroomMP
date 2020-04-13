@@ -43,6 +43,7 @@ class Index extends Component {
   render() {
     return (
       <View className="container">
+        
         <AtTabBar
           fixed
           tabList={[

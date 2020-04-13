@@ -1,8 +1,11 @@
 $fontSize: 24rpx;
 
 .container {
+  min-height: 100vh;
   height: 100%;
   box-sizing: border-box;
+  background-color: #eee;
+  padding: 10rpx 0;
   .header {
     height: 80rpx;
     display: flex;
@@ -14,22 +17,20 @@ $fontSize: 24rpx;
     padding: 0 20rpx;
   }
   .items {
-    .at-swipe-action__option {
-      height: 70%;
-    }
     .item {
       height: 200rpx;
       border-radius: 10rpx;
       background-color: white;
-      margin: 20rpx 20rpx;
-      box-shadow: 0 4rpx 30rpx 0 rgba(4, 59, 85, 0.15);
+      margin: 20rpx 30rpx;
+      color: #000;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 0px;
       padding: 10rpx 20rpx;
-      // font-weight: bold;
       font-size: $fontSize;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       .itemUpContent {
+        position: relative;
         .itemUpContentItem {
           height: 60rpx;
           display: flex;
@@ -44,6 +45,23 @@ $fontSize: 24rpx;
             }
           }
         }
+        .status_wxs,
+        .status_wwc,
+        .status_yjs {
+          position: absolute;
+          top: 15rpx;
+          right: 4rpx;
+          color: #fff;
+          background-color: #6190e8;
+          padding: 4rpx 8rpx;
+          border-radius: 6rpx;
+        }
+        .status_wwc {
+          background-color: #da3026;
+        }
+        .status_yjs {
+          background-color: #50a14f;
+        }
       }
       .itemDownContent {
         height: 60rpx;
@@ -51,17 +69,10 @@ $fontSize: 24rpx;
         align-items: center;
         justify-content: space-between;
         .downWrapper {
-          margin-left: 20rpx;
+          margin-left: 100rpx;
           text {
             font-weight: bold;
             color: #616367;
-          }
-          .status {
-            margin-left: 30rpx;
-            color: #fff;
-            background-color: #50a14f;
-            padding: 0 8rpx;
-            border-radius: 6rpx;
           }
         }
       }

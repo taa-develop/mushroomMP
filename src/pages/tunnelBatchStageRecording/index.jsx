@@ -61,13 +61,6 @@ class TunnelBatchStage extends Component {
   config = {
     navigationBarTitleText: "阶段记录"
   };
-
-  handleItem = indx => {
-    Taro.navigateTo({
-      url: `/pages/recordingTunnel/index?id=${indx}`
-    });
-  };
-
   handleComplete = () => {
     console.log("handleComplete");
   };
@@ -79,27 +72,22 @@ class TunnelBatchStage extends Component {
       url: `/pages/addTunnelBatchStageRecording/index?stageId=${this.state.stageId}&batchId=${this.state.batchId}`
     });
   };
-
   render() {
     const { stageBatchList } = this.props;
     return (
       <View className="container">
         <View className="header">
-          <AtButton size="small" onClick={this.handleAddRecording}>
+          <AtButton type="primary" onClick={this.handleAddRecording}>
             添加记录
           </AtButton>
-          <AtButton size="small" onClick={this.handleComplete}>
+          <AtButton type="secondary" onClick={this.handleComplete}>
             完成阶段
           </AtButton>
         </View>
         <View className="items">
           {stageBatchList &&
             stageBatchList.map((v, indx) => (
-              <View
-                key={indx}
-                className="item"
-                onClick={this.handleItem.bind(this, indx + 1)}
-              >
+              <View key={indx} className="item">
                 <View className="itemUpContent">
                   <View className="itemUpContentItem">
                     <View className="fileds">
@@ -121,23 +109,24 @@ class TunnelBatchStage extends Component {
                       {v.recorder}
                     </View>
                   </View>
+                  <View className="TagBox">
+                    {v.status == 0 && (
+                      <Text className="status_wxs">未开始</Text>
+                    )}
+                    {v.status == 1 && (
+                      <Text className="status_wwc">未完成</Text>
+                    )}
+                    {v.status == 2 && (
+                      <Text className="status_yjs">已结束</Text>
+                    )}
+                  </View>
                 </View>
                 <AtDivider />
                 <View className="itemDownContent">
                   <View className="downWrapper">
                     <Text> 开始时间：</Text>
-                    {v.startTime}
-                    <Text className="status">
-                      {v.status == 0
-                        ? "未开始"
-                        : v.status == 1
-                        ? "未完成"
-                        : v.status == 2
-                        ? "已结束"
-                        : null}
-                    </Text>
+                    {v.startTime == "-1" ? "" : v.startTime}
                   </View>
-                  <View className="at-icon at-icon-chevron-right"></View>
                 </View>
               </View>
             ))}

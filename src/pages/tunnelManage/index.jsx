@@ -2,7 +2,7 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
-import { AtButton, AtSwipeAction, AtTabBar } from "taro-ui";
+import { AtTabBar } from "taro-ui";
 import "./index.scss";
 
 class TunnelManage extends Component {
@@ -39,17 +39,17 @@ class TunnelManage extends Component {
       },
       () => {
         if (this.state.current == 0) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/roomManage/index"
           });
         }
         if (this.state.current == 1) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/tunnelManage/index"
           });
         }
         if (this.state.current == 2) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/user/index"
           });
         }
