@@ -4,13 +4,14 @@
 /* eslint-disable import/first */
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
-import { View, Picker } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { AtForm, AtInput, AtButton } from "taro-ui";
 import { connect } from "@tarojs/redux";
 import {
   dispatchAddTunnelBatchRecord,
   dispatchIndicatorsList
 } from "../../actions/tunnelBatch";
+import { dispatchCurrentUser } from "../../actions/user";
 import "./index.scss";
 
 @connect(
@@ -19,15 +20,17 @@ import "./index.scss";
       indicatorsList: state.tunnelBatch.list.indicatorsList
     };
   },
-  { dispatchAddTunnelBatchRecord, dispatchIndicatorsList }
+  { dispatchAddTunnelBatchRecord, dispatchIndicatorsList, dispatchCurrentUser }
 )
 class Recording extends Component {
   constructor() {
     super(...arguments);
+
     this.state = {
       remark: "",
       stageId: "",
-      batchId: ""
+      batchId: "",
+      dtName: []
     };
   }
 
@@ -40,20 +43,42 @@ class Recording extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatchIndicatorsList({
+    this.props.dispatchCurrentUser({
       query: `{
+        currentUser{
+          username
+          realName
+          role
+          gender
+        }
+      }`
+    });
+
+    this.props
+      .dispatchIndicatorsList({
+        query: `{
         indicatorsList(pageQuery:{
           pageNum:1,
           pageSize:10
         },
         indicatorQuery:{environment:ONCE_TUNNEL}
         ){
+          id
           name
           isUse
           unit
         }
       }`
-    });
+      })
+      .then(res => {
+        this.setState({
+          dtName: res.indicatorsList.map(v => ({
+            key: v.id,
+            name: v.name,
+            value: ""
+          }))
+        });
+      });
   }
 
   config = {
@@ -63,6 +88,18 @@ class Recording extends Component {
   handleChangeName(value, name) {
     this.setState({
       [name.currentTarget.id]: value
+    });
+  }
+  handleChangeDTName(index, value) {
+    this.setState({
+      dtName: this.state.dtName.map((v, i) =>
+        index == i
+          ? {
+              ...v,
+              value: value
+            }
+          : v
+      )
     });
   }
 
@@ -86,7 +123,10 @@ class Recording extends Component {
             batchId: Number(this.state.batchId),
             stageId: Number(this.state.stageId),
             remark: this.state.remark,
-            indicatorData: [{ key: 1, value: "五十摄氏度" }],
+            indicatorData: this.state.dtName.map(v => ({
+              key: v.key,
+              value: v.value
+            })),
             environment: "ONCE_TUNNEL"
           }
         })
@@ -96,7 +136,7 @@ class Recording extends Component {
     }
   }
   render() {
-    const { remark } = this.state;
+    const { remark, dtName } = this.state;
     return (
       <View className="container">
         <AtForm onSubmit={this.onSubmit.bind(this)}>
@@ -110,6 +150,19 @@ class Recording extends Component {
               onChange={this.handleChangeName.bind(this)}
             />
           </View>
+          {dtName &&
+            dtName.map((v, idnx) => (
+              <View className="item" key={idnx}>
+                <AtInput
+                  name={v.id}
+                  title={v.name}
+                  type="text"
+                  placeholder={`填写${v.name}`}
+                  value={v.value}
+                  onChange={this.handleChangeDTName.bind(this, idnx)}
+                />
+              </View>
+            ))}
 
           <View className="buttonGroup">
             <AtButton formType="submit" type="primary">

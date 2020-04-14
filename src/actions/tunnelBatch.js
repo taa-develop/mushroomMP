@@ -6,7 +6,7 @@ import {
   STAGETUNNELBATCHLIST,
   TUNNELBATCH_RECORD_ADD,
   INDICATORSLIST,
-  RECORDTUNNELBATCHLIST
+  RECORDTUNNELBATCHLIST,
 } from "../constants/tunnelBatch";
 
 import { API_TUNNELBATCHLIST } from "../constants/api";
