@@ -108,7 +108,7 @@ class Recording extends Component {
       this.props
         .dispatchAddTunnelBatchRecord({
           query: `mutation AddTunnelBatch($batchId: Int,$stageId: Int,$environment: Environment!,$picture: String,$remark: String,$indicatorData: [InputIndicatorData]) {
-          inputRecord(inputRecord:{batchId: $batchId,stageId: $stageId,environment: $environment,picture: $picture,remark: $remark,indicatorData:$indicatorData}) {
+            addRecord(inputRecord:{batchId: $batchId,stageId: $stageId,environment: $environment,picture: $picture,remark: $remark,indicatorData:$indicatorData}) {
             id
             environment
             recorderId
@@ -131,7 +131,13 @@ class Recording extends Component {
           }
         })
         .then(res => {
-          console.log("res: ", res);
+          if (res.addRecord) {
+            Taro.showToast({
+              title: "成功",
+              icon: "success",
+              duration: 2000
+            }).then(() => Taro.navigateBack());
+          }
         });
     }
   }

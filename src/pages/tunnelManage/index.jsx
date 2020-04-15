@@ -2,9 +2,17 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
+import { connect } from "@tarojs/redux";
 import { AtTabBar } from "taro-ui";
 import "./index.scss";
+import { onTunnelNumberOftunnels } from "../../actions/tunnelBatch";
 
+@connect(
+  state => {
+    return {};
+  },
+  { onTunnelNumberOftunnels }
+)
 class TunnelManage extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +39,7 @@ class TunnelManage extends Component {
     Taro.navigateTo({
       url: `/pages/tunnelBatch/index?id=${name}`
     });
+    // this.props.onTunnelNumberOftunnels(name)
   };
   handleClick(value) {
     this.setState(

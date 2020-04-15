@@ -7,6 +7,8 @@ import {
   TUNNELBATCH_RECORD_ADD,
   INDICATORSLIST,
   RECORDTUNNELBATCHLIST,
+  TUNNELBATCH_COMPLETE_STAGE,
+  SAVE_TUNNEL_NUMBER
 } from "../constants/tunnelBatch";
 
 import { API_TUNNELBATCHLIST } from "../constants/api";
@@ -36,6 +38,14 @@ export const dispatchAddTunnelBatchRecord = payload => {
     payload
   });
 };
+export const dispatchCompleteStage = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    method: "POST",
+    type: TUNNELBATCH_COMPLETE_STAGE,
+    payload
+  });
+};
 
 
 export const dispatchStageByTunnelBatchList = payload => {
@@ -59,4 +69,13 @@ export const dispatchIndicatorsList = payload => {
     type: INDICATORSLIST,
     payload
   });
+};
+
+
+
+export const onTunnelNumberOftunnels = payload => {
+  return {
+    type: SAVE_TUNNEL_NUMBER,
+    payload
+  }
 };

@@ -7,7 +7,10 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { AtDivider, AtButton } from "taro-ui";
 import { connect } from "@tarojs/redux";
-import { dispatchRecordByTunnelBatchList } from "../../actions/tunnelBatch";
+import {
+  dispatchRecordByTunnelBatchList,
+  dispatchCompleteStage
+} from "../../actions/tunnelBatch";
 import "./index.scss";
 
 @connect(
@@ -16,7 +19,7 @@ import "./index.scss";
       stageBatchList: state.tunnelBatch.list.stageListByBatchId
     };
   },
-  { dispatchRecordByTunnelBatchList }
+  { dispatchRecordByTunnelBatchList, dispatchCompleteStage }
 )
 class TunnelBatchStage extends Component {
   constructor(props) {
@@ -58,16 +61,34 @@ class TunnelBatchStage extends Component {
   }
   componentDidMount() {}
 
+  getList = () => {};
+
   config = {
     navigationBarTitleText: "阶段记录"
   };
   handleComplete = () => {
-    console.log("handleComplete");
+    this.props
+      .dispatchCompleteStage({
+        query: `mutation CompleteStage($batchId: Int!,$stageId: Int!) {
+        endStage(batchId: $batchId,stageId: $stageId)
+      }`,
+        variables: {
+          batchId: Number(this.state.batchId),
+          stageId: Number(this.state.stageId)
+        }
+      })
+      .then(res => {
+        if (res.endStage) {
+          Taro.showToast({
+            title: "成功",
+            icon: "success",
+            duration: 2000
+          }).then(() => Taro.navigateBack());
+        }
+      });
   };
 
   handleAddRecording = () => {
-    console.log("handleAddRecording");
-
     Taro.navigateTo({
       url: `/pages/addTunnelBatchStageRecording/index?stageId=${this.state.stageId}&batchId=${this.state.batchId}`
     });
