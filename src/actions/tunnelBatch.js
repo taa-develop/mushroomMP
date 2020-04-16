@@ -8,7 +8,9 @@ import {
   INDICATORSLIST,
   RECORDTUNNELBATCHLIST,
   TUNNELBATCH_COMPLETE_STAGE,
-  SAVE_TUNNEL_NUMBER
+  SAVE_TUNNEL_NUMBER,
+  SAVE_TUNNEL_BATCH_ID,
+  SAVE_TUNNEL_BATCHID_AND_STAGEID
 } from "../constants/tunnelBatch";
 
 import { API_TUNNELBATCHLIST } from "../constants/api";
@@ -76,6 +78,18 @@ export const dispatchIndicatorsList = payload => {
 export const onTunnelNumberOftunnels = payload => {
   return {
     type: SAVE_TUNNEL_NUMBER,
+    payload
+  }
+};
+export const onTunnelBatchId = payload => {
+  return {
+    type: SAVE_TUNNEL_BATCH_ID,
+    payload
+  }
+};
+export const onTunnelBatchIdAndStageId = payload => {
+  return {
+    type: SAVE_TUNNEL_BATCHID_AND_STAGEID,
     payload
   }
 };

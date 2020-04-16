@@ -6,30 +6,26 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { AtButton, AtDivider } from "taro-ui";
 import { connect } from "@tarojs/redux";
-import { dispatchTunnelBatchList } from "../../actions/tunnelBatch";
+import {
+  dispatchTunnelBatchList,
+  onTunnelBatchId
+} from "../../actions/tunnelBatch";
+import _ from "lodash";
 import "./index.scss";
 
 @connect(
   state => {
     return {
-      batchList: state.tunnelBatch.list.batchList
+      batchList: _.get(state.tunnelBatch, "list.batchList"),
+      environment: _.get(state.tunnelBatch, "tunnelData")
     };
   },
-  { dispatchTunnelBatchList }
+  { dispatchTunnelBatchList, onTunnelBatchId }
 )
 class TunnelBatch extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tunnelKey: ""
-    };
-  }
-
-  componentWillMount() {
-    let tunnelKey = this.$router.params.id;
-    this.setState({
-      tunnelKey
-    });
+    this.state = {};
   }
 
   componentDidMount() {
@@ -40,7 +36,7 @@ class TunnelBatch extends Component {
           pageSize:10
         },
         batchQuery:{
-          environment: ONCE_TUNNEL
+          environment: ${this.props.environment}
         }
         ){
           id
@@ -69,13 +65,15 @@ class TunnelBatch extends Component {
 
   handleAdd = () => {
     Taro.navigateTo({
-      url: `/pages/addTunnelBatch/index?id=${this.state.tunnelKey}`
+      url: `/pages/addTunnelBatch/index`
     });
   };
 
   handleItem = id => {
+    this.props.onTunnelBatchId(id);
+
     Taro.navigateTo({
-      url: `/pages/tunnelBatchStage/index?id=${id}`
+      url: `/pages/tunnelBatchStage/index`
     });
   };
 

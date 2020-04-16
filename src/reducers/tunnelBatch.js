@@ -3,12 +3,16 @@ import {
   STAGETUNNELBATCHLIST,
   INDICATORSLIST,
   RECORDTUNNELBATCHLIST,
-  SAVE_TUNNEL_NUMBER
+  SAVE_TUNNEL_NUMBER,
+  SAVE_TUNNEL_BATCH_ID,
+  SAVE_TUNNEL_BATCHID_AND_STAGEID
 } from "../constants/tunnelBatch";
 
 const INITIAL_STATE = {
   list: [],
-  tunnelData: {}
+  tunnelData: {},
+  batchId: "",
+  batchIdAndStageId:{}
 };
 
 export default function tunnelBatch(state = INITIAL_STATE, action) {
@@ -36,6 +40,14 @@ export default function tunnelBatch(state = INITIAL_STATE, action) {
     case SAVE_TUNNEL_NUMBER:
       return {
         tunnelData: action.payload
+      };
+    case SAVE_TUNNEL_BATCH_ID:
+      return {
+        batchId: action.payload
+      };
+    case SAVE_TUNNEL_BATCHID_AND_STAGEID:
+      return {
+        batchIdAndStageId: action.payload
       };
     default:
       return state;

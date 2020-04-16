@@ -8,11 +8,13 @@ import { AtForm, AtInput, AtButton } from "taro-ui";
 import { connect } from "@tarojs/redux";
 import { dispatchAddTunnelBatch } from "../../actions/tunnelBatch";
 import "./index.scss";
+import _ from "lodash";
 
 @connect(
   state => {
     return {
-      batchList: state.tunnelBatch.list.batchList
+      batchList: _.get(state.tunnelBatch, "list.batchList"),
+      environment: _.get(state.tunnelBatch, "tunnelData")
     };
   },
   { dispatchAddTunnelBatch }
@@ -23,16 +25,8 @@ class Recording extends Component {
     this.state = {
       selectorLc: ["一号料仓", "二号料仓", "三号料仓", "四号料仓", "五号料仓"],
       selectorLcValue: 0,
-      pcNum: "",
-      tunnelKey: ""
+      pcNum: ""
     };
-  }
-
-  componentWillMount() {
-    let tunnelKey = this.$router.params.id;
-    this.setState({
-      tunnelKey
-    });
   }
 
   componentDidMount() {}
@@ -55,8 +49,9 @@ class Recording extends Component {
 
   onSubmit(event) {
     if (this.state.selectorLc[this.state.selectorLcValue] && this.state.pcNum) {
-      this.props.dispatchAddTunnelBatch({
-        query: `mutation AddTunnelBatch($environment: Environment!,$number: Int,$siloId: Int) {
+      this.props
+        .dispatchAddTunnelBatch({
+          query: `mutation AddTunnelBatch($environment: Environment!,$number: Int,$siloId: Int) {
           addBatch(inputBatch:{environment:$environment,number:$number,siloId:$siloId}) {
             id
             environment
@@ -68,12 +63,21 @@ class Recording extends Component {
             }
           }
         }`,
-        variables: {
-          environment: this.state.tunnelKey,
-          number: this.state.pcNum,
-          siloId: this.state.selectorLcValue + 1
-        }
-      });
+          variables: {
+            environment: this.props.environment,
+            number: this.state.pcNum,
+            siloId: this.state.selectorLcValue + 1
+          }
+        })
+        .then(res => {
+          if (res.addBatch) {
+            Taro.showToast({
+              title: "成功",
+              icon: "success",
+              duration: 2000
+            }).then(() => Taro.navigateBack());
+          }
+        });
     }
   }
   render() {

@@ -12,11 +12,13 @@ import {
   dispatchCompleteStage
 } from "../../actions/tunnelBatch";
 import "./index.scss";
+import _ from "lodash";
 
 @connect(
   state => {
     return {
-      stageBatchList: state.tunnelBatch.list.stageListByBatchId
+      recordListByStageId: _.get(state.tunnelBatch, "list.recordListByStageId"),
+      batchIdAndStageId: _.get(state.tunnelBatch, "batchIdAndStageId")
     };
   },
   { dispatchRecordByTunnelBatchList, dispatchCompleteStage }
@@ -24,42 +26,29 @@ import "./index.scss";
 class TunnelBatchStage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      stageId: "",
-      batchId: ""
-    };
+    this.state = {};
   }
-  componentWillMount() {
-    let { stageId, batchId } = this.$router.params;
-    this.setState(
-      {
-        stageId,
-        batchId
+  componentDidMount() {
+    this.props.dispatchRecordByTunnelBatchList({
+      query: `{
+        recordListByStageId(pageQuery:{
+        pageNum:1,
+        pageSize:10
       },
-      () => {
-        this.props.dispatchRecordByTunnelBatchList({
-          query: `{
-            recordListByStageId(pageQuery:{
-            pageNum:1,
-            pageSize:10
-          },
-          stageId:${this.state.stageId}
-          ){
-            id
-            environment
-            recorderId
-            recorder
-            batchId
-            stageId
-            picture
-            remark
-          }
-        }`
-        });
+      stageId:${this.props.batchIdAndStageId.stageId}
+      ){
+        id
+        environment
+        recorderId
+        recorder
+        batchId
+        stageId
+        picture
+        remark
       }
-    );
+    }`
+    });
   }
-  componentDidMount() {}
 
   getList = () => {};
 
@@ -73,8 +62,8 @@ class TunnelBatchStage extends Component {
         endStage(batchId: $batchId,stageId: $stageId)
       }`,
         variables: {
-          batchId: Number(this.state.batchId),
-          stageId: Number(this.state.stageId)
+          batchId: Number(this.props.batchIdAndStageId.batchId),
+          stageId: Number(this.props.batchIdAndStageId.stageId)
         }
       })
       .then(res => {
@@ -90,11 +79,11 @@ class TunnelBatchStage extends Component {
 
   handleAddRecording = () => {
     Taro.navigateTo({
-      url: `/pages/addTunnelBatchStageRecording/index?stageId=${this.state.stageId}&batchId=${this.state.batchId}`
+      url: `/pages/addTunnelBatchStageRecording/index`
     });
   };
   render() {
-    const { stageBatchList } = this.props;
+    const { recordListByStageId } = this.props;
     return (
       <View className="container">
         <View className="header">
@@ -106,8 +95,8 @@ class TunnelBatchStage extends Component {
           </AtButton>
         </View>
         <View className="items">
-          {stageBatchList &&
-            stageBatchList.map((v, indx) => (
+          {recordListByStageId &&
+            recordListByStageId.map((v, indx) => (
               <View key={indx} className="item">
                 <View className="itemUpContent">
                   <View className="itemUpContentItem">

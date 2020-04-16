@@ -62,7 +62,7 @@ class RoomManage extends Component {
           <View className="items">
             {roomList.map((v, indx) => (
               <View
-                key={indx}
+                key={v}
                 className="item"
                 onClick={this.handleItem.bind(this, indx + 1)}
               >

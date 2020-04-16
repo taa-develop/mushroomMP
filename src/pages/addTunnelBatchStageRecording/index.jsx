@@ -13,11 +13,14 @@ import {
 } from "../../actions/tunnelBatch";
 import { dispatchCurrentUser } from "../../actions/user";
 import "./index.scss";
+import _ from "lodash";
 
 @connect(
   state => {
     return {
-      indicatorsList: state.tunnelBatch.list.indicatorsList
+      indicatorsList: _.get(state.tunnelBatch, "list.indicatorsList"),
+      batchIdAndStageId: _.get(state.tunnelBatch, "batchIdAndStageId"),
+      environment: _.get(state.tunnelBatch, "tunnelData")
     };
   },
   { dispatchAddTunnelBatchRecord, dispatchIndicatorsList, dispatchCurrentUser }
@@ -27,19 +30,8 @@ class Recording extends Component {
     super(...arguments);
 
     this.state = {
-      remark: "",
-      stageId: "",
-      batchId: "",
       dtName: []
     };
-  }
-
-  componentWillMount() {
-    let { stageId, batchId } = this.$router.params;
-    this.setState({
-      stageId,
-      batchId
-    });
   }
 
   componentDidMount() {
@@ -61,7 +53,7 @@ class Recording extends Component {
           pageNum:1,
           pageSize:10
         },
-        indicatorQuery:{environment:ONCE_TUNNEL}
+        indicatorQuery:{environment:${this.props.environment}}
         ){
           id
           name
@@ -120,14 +112,14 @@ class Recording extends Component {
           }
         }`,
           variables: {
-            batchId: Number(this.state.batchId),
-            stageId: Number(this.state.stageId),
+            batchId: Number(this.props.batchIdAndStageId.batchId),
+            stageId: Number(this.props.batchIdAndStageId.stageId),
             remark: this.state.remark,
             indicatorData: this.state.dtName.map(v => ({
               key: v.key,
               value: v.value
             })),
-            environment: "ONCE_TUNNEL"
+            environment: this.props.environment
           }
         })
         .then(res => {

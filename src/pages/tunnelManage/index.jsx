@@ -36,10 +36,10 @@ class TunnelManage extends Component {
   };
 
   handleItem = name => {
+    this.props.onTunnelNumberOftunnels(name)
     Taro.navigateTo({
-      url: `/pages/tunnelBatch/index?id=${name}`
+      url: `/pages/tunnelBatch/index`
     });
-    // this.props.onTunnelNumberOftunnels(name)
   };
   handleClick(value) {
     this.setState(

@@ -6,30 +6,28 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { AtDivider } from "taro-ui";
 import { connect } from "@tarojs/redux";
-import { dispatchStageByTunnelBatchList } from "../../actions/tunnelBatch";
+import {
+  dispatchStageByTunnelBatchList,
+  onTunnelBatchIdAndStageId
+} from "../../actions/tunnelBatch";
 import "./index.scss";
+import _ from "lodash";
 
 @connect(
   state => {
     return {
-      stageBatchList: state.tunnelBatch.list.stageListByBatchId
+      stageBatchList: _.get(state.tunnelBatch, "list.stageListByBatchId"),
+      batchId: _.get(state.tunnelBatch, "batchId")
     };
   },
-  { dispatchStageByTunnelBatchList }
+  { dispatchStageByTunnelBatchList, onTunnelBatchIdAndStageId }
 )
 class TunnelBatchStage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: ""
-    };
+    this.state = {};
   }
-  componentWillMount() {
-    let id = this.$router.params.id;
-    this.setState({
-      id
-    });
-  }
+
   componentDidMount() {
     this.props.dispatchStageByTunnelBatchList({
       query: `{
@@ -37,7 +35,7 @@ class TunnelBatchStage extends Component {
           pageNum:1,
           pageSize:10
         },
-        batchId:${this.state.id}
+        batchId:${this.props.batchId}
         ){
           id
           environment
@@ -58,8 +56,10 @@ class TunnelBatchStage extends Component {
   };
 
   handleItem = (stageId, batchId) => {
+    this.props.onTunnelBatchIdAndStageId({ stageId, batchId });
+
     Taro.navigateTo({
-      url: `/pages/tunnelBatchStageRecording/index?stageId=${stageId}&batchId=${batchId}`
+      url: `/pages/tunnelBatchStageRecording/index`
     });
   };
 
