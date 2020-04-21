@@ -4,7 +4,7 @@
 /* eslint-disable jsx-quotes */
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import { AtDivider } from "taro-ui";
+import { AtDivider, AtButton } from "taro-ui";
 import { connect } from "@tarojs/redux";
 import {
   dispatchStageByTunnelBatchList,
@@ -107,15 +107,22 @@ class TunnelBatchStage extends Component {
                       <Text className="status_yjs">已结束</Text>
                     )}
                   </View>
-                </View>
-                <AtDivider />
-                <View className="itemDownContent">
-                  <View className="downWrapper">
-                    <Text> 开始时间：</Text>
-                    {v.startTime == "-1" ? "" : v.startTime}
+                  <View className="itemDownContent">
+                    <View className="downWrapper">
+                      <Text> 开始时间：</Text>
+                      {v.startTime == "-1" ? "" : v.startTime}
+                    </View>
+                    <View className="at-icon at-icon-chevron-right"></View>
                   </View>
-                  <View className="at-icon at-icon-chevron-right"></View>
                 </View>
+                {v.status !== 2 && (
+                  <View>
+                    <AtDivider />
+                    <View className="startButtton">
+                      <AtButton type="primary">开始阶段</AtButton>
+                    </View>
+                  </View>
+                )}
               </View>
             ))}
         </View>
