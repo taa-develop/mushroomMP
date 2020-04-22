@@ -18,7 +18,7 @@ $fontSize: 24rpx;
   }
   .items {
     .item {
-      height: 300rpx;
+      height: 100%;
       border-radius: 10rpx;
       background-color: white;
       margin: 20rpx 30rpx;
@@ -28,29 +28,44 @@ $fontSize: 24rpx;
       font-size: $fontSize;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      // justify-content: space-between;
+
       .itemUpContent {
-        position: relative;
-        .itemUpContentItem {
-          height: 60rpx;
+        height: 60rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .at-divider {
+        margin: 10rpx 0;
+        height: 1rpx;
+      }
+
+      .itemCenterContent {
+        height: 100rpx;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 20rpx 0;
+        .itemCenterContentItem,
+        .TagBox {
+          height: 80rpx;
           display: flex;
-          align-items: center;
-          justify-content: space-evenly;
-          .fileds {
-            width: 180rpx;
-            font-weight: bold;
-            text {
-              width: 80rpx;
-              color: #616367;
-            }
+          justify-content: space-around;
+          align-items: flex-end;
+          flex-direction: column;
+        }
+        .fileds {
+          width: 180rpx;
+          font-weight: bold;
+          text {
+            width: 80rpx;
+            color: #616367;
           }
         }
         .status_wxs,
         .status_wwc,
         .status_yjs {
-          position: absolute;
-          top: 15rpx;
-          right: 4rpx;
           color: #fff;
           background-color: #6190e8;
           padding: 4rpx 8rpx;
@@ -62,22 +77,13 @@ $fontSize: 24rpx;
         .status_yjs {
           background-color: #50a14f;
         }
-      }
-      .itemDownContent {
-        height: 60rpx;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .downWrapper {
-          margin-left: 100rpx;
-          text {
-            font-weight: bold;
-            color: #616367;
-          }
+
+        .TagBox {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
         }
-      }
-      .at-divider {
-        height: 10rpx;
       }
     }
   }

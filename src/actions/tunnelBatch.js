@@ -8,6 +8,7 @@ import {
   INDICATORSLIST,
   RECORDTUNNELBATCHLIST,
   TUNNELBATCH_COMPLETE_STAGE,
+  TUNNELBATCH_START_STAGE,
   SAVE_TUNNEL_NUMBER,
   SAVE_TUNNEL_BATCH_ID,
   SAVE_TUNNEL_BATCHID_AND_STAGEID
@@ -49,7 +50,6 @@ export const dispatchCompleteStage = payload => {
   });
 };
 
-
 export const dispatchStageByTunnelBatchList = payload => {
   return createAction({
     url: API_TUNNELBATCHLIST,
@@ -57,6 +57,7 @@ export const dispatchStageByTunnelBatchList = payload => {
     payload
   });
 };
+
 export const dispatchRecordByTunnelBatchList = payload => {
   return createAction({
     url: API_TUNNELBATCHLIST,
@@ -72,24 +73,30 @@ export const dispatchIndicatorsList = payload => {
     payload
   });
 };
-
-
+export const dispatchTunnelBatchStageStart = payload => {
+  return createAction({
+    url: API_TUNNELBATCHLIST,
+    method: "POST",
+    type: TUNNELBATCH_START_STAGE,
+    payload
+  });
+};
 
 export const onTunnelNumberOftunnels = payload => {
   return {
     type: SAVE_TUNNEL_NUMBER,
     payload
-  }
+  };
 };
 export const onTunnelBatchId = payload => {
   return {
     type: SAVE_TUNNEL_BATCH_ID,
     payload
-  }
+  };
 };
 export const onTunnelBatchIdAndStageId = payload => {
   return {
     type: SAVE_TUNNEL_BATCHID_AND_STAGEID,
     payload
-  }
+  };
 };

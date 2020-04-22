@@ -8,19 +8,26 @@ import { AtDivider, AtButton } from "taro-ui";
 import { connect } from "@tarojs/redux";
 import {
   dispatchStageByTunnelBatchList,
-  onTunnelBatchIdAndStageId
+  onTunnelBatchIdAndStageId,
+  dispatchTunnelBatchStageStart
 } from "../../actions/tunnelBatch";
 import "./index.scss";
 import _ from "lodash";
+import dayjs from "dayjs";
 
 @connect(
   state => {
     return {
       stageBatchList: _.get(state.tunnelBatch, "list.stageListByBatchId"),
-      batchId: _.get(state.tunnelBatch, "batchId")
+      batchId: _.get(state.tunnelBatch, "batchId"),
+      batchIdAndStageId: _.get(state.tunnelBatch, "batchIdAndStageId")
     };
   },
-  { dispatchStageByTunnelBatchList, onTunnelBatchIdAndStageId }
+  {
+    dispatchStageByTunnelBatchList,
+    onTunnelBatchIdAndStageId,
+    dispatchTunnelBatchStageStart
+  }
 )
 class TunnelBatchStage extends Component {
   constructor(props) {
@@ -29,6 +36,34 @@ class TunnelBatchStage extends Component {
   }
 
   componentDidMount() {
+    Taro.startPullDownRefresh({
+      success: () => {
+        this.getList();
+        setTimeout(() => {
+          Taro.stopPullDownRefresh();
+        }, 500);
+      }
+    });
+  }
+
+  config = {
+    navigationBarTitleText: "批次阶段"
+  };
+
+  componentDidShow() {
+    Taro.startPullDownRefresh({
+      success: () => {
+        this.getList();
+        setTimeout(() => {
+          Taro.stopPullDownRefresh();
+        }, 500);
+      }
+    });
+  }
+
+  componentDidHide() {}
+
+  getList = () => {
     this.props.dispatchStageByTunnelBatchList({
       query: `{
         stageListByBatchId(pageQuery:{
@@ -49,10 +84,6 @@ class TunnelBatchStage extends Component {
         }
       }`
     });
-  }
-
-  config = {
-    navigationBarTitleText: "批次阶段"
   };
 
   handleItem = (stageId, batchId) => {
@@ -63,6 +94,37 @@ class TunnelBatchStage extends Component {
     });
   };
 
+  handleStartStage = (stageId, batchId) => {
+    this.props
+      .dispatchTunnelBatchStageStart({
+        query: `mutation StartStage($batchId: Int!,$stageId: Int!) {
+        startStage(batchId: $batchId,stageId: $stageId)
+    }`,
+        variables: {
+          batchId: Number(batchId),
+          stageId: Number(stageId)
+        }
+      })
+      .then(res => {
+        if (res.startStage) {
+          Taro.showToast({
+            title: "成功",
+            icon: "success",
+            duration: 2000
+          }).then(() =>
+            Taro.startPullDownRefresh({
+              success: () => {
+                this.getList();
+                setTimeout(() => {
+                  Taro.stopPullDownRefresh();
+                }, 500);
+              }
+            })
+          );
+        }
+      });
+  };
+
   render() {
     const { stageBatchList } = this.props;
     return (
@@ -70,13 +132,22 @@ class TunnelBatchStage extends Component {
         <View className="items">
           {stageBatchList &&
             stageBatchList.map((v, indx) => (
-              <View
-                key={indx}
-                className="item"
-                onClick={this.handleItem.bind(this, v.id, v.batchId)}
-              >
-                <View className="itemUpContent">
-                  <View className="itemUpContentItem">
+              <View key={v.id} className="item">
+                <View
+                  className="itemUpContent"
+                  onClick={this.handleItem.bind(this, v.id, v.batchId)}
+                >
+                  <View className="downWrapper">
+                    <Text>开始时间：</Text>
+                    {v.startTime == -1
+                      ? ""
+                      : dayjs.unix(v.startTime).format("YYYY-MM-DD HH:mm")}
+                  </View>
+                  <View className="at-icon at-icon-chevron-right"></View>
+                </View>
+                <AtDivider />
+                <View className="itemCenterContent">
+                  <View className="itemCenterContentItem">
                     <View className="fileds">
                       <Text>阶段：</Text>
                       {v.stageName}
@@ -86,7 +157,7 @@ class TunnelBatchStage extends Component {
                       {indx + 1}
                     </View>
                   </View>
-                  <View className="itemUpContentItem bottom-Line">
+                  <View className="itemCenterContentItem">
                     <View className="fileds">
                       <Text>记录数：</Text>
                       {v.recordCount}
@@ -107,22 +178,24 @@ class TunnelBatchStage extends Component {
                       <Text className="status_yjs">已结束</Text>
                     )}
                   </View>
-                  <View className="itemDownContent">
-                    <View className="downWrapper">
-                      <Text> 开始时间：</Text>
-                      {v.startTime == "-1" ? "" : v.startTime}
-                    </View>
-                    <View className="at-icon at-icon-chevron-right"></View>
-                  </View>
                 </View>
-                {v.status !== 2 && (
-                  <View>
-                    <AtDivider />
+
+                <View className="itemDownContent">
+                  {v.status == 0 && (
                     <View className="startButtton">
-                      <AtButton type="primary">开始阶段</AtButton>
+                      <AtButton
+                        type="primary"
+                        onClick={this.handleStartStage.bind(
+                          this,
+                          v.id,
+                          v.batchId
+                        )}
+                      >
+                        开始阶段
+                      </AtButton>
                     </View>
-                  </View>
-                )}
+                  )}
+                </View>
               </View>
             ))}
         </View>

@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   list: [],
   tunnelData: {},
   batchId: "",
-  batchIdAndStageId:{}
+  batchIdAndStageId: {}
 };
 
 export default function tunnelBatch(state = INITIAL_STATE, action) {
@@ -39,14 +39,17 @@ export default function tunnelBatch(state = INITIAL_STATE, action) {
       };
     case SAVE_TUNNEL_NUMBER:
       return {
+        ...state,
         tunnelData: action.payload
       };
     case SAVE_TUNNEL_BATCH_ID:
       return {
+        ...state,
         batchId: action.payload
       };
     case SAVE_TUNNEL_BATCHID_AND_STAGEID:
       return {
+        ...state,
         batchIdAndStageId: action.payload
       };
     default:

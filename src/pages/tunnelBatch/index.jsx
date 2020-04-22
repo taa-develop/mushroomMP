@@ -12,6 +12,7 @@ import {
 } from "../../actions/tunnelBatch";
 import _ from "lodash";
 import "./index.scss";
+import dayjs from "dayjs";
 
 @connect(
   state => {
@@ -29,6 +30,32 @@ class TunnelBatch extends Component {
   }
 
   componentDidMount() {
+    Taro.startPullDownRefresh({
+      success: () => {
+        this.getList();
+        setTimeout(() => {
+          Taro.stopPullDownRefresh();
+        }, 500);
+      }
+    });
+  }
+
+  config = {
+    navigationBarTitleText: "批次管理"
+  };
+
+  componentDidShow() {
+    Taro.startPullDownRefresh({
+      success: () => {
+        this.getList();
+        setTimeout(() => {
+          Taro.stopPullDownRefresh();
+        }, 500);
+      }
+    });
+  }
+
+  getList = () => {
     this.props.dispatchTunnelBatchList({
       query: `{
         batchList(pageQuery:{
@@ -57,10 +84,6 @@ class TunnelBatch extends Component {
         }
       }`
     });
-  }
-
-  config = {
-    navigationBarTitleText: "批次管理"
   };
 
   handleAdd = () => {
@@ -131,7 +154,9 @@ class TunnelBatch extends Component {
                 <View className="itemDownContent">
                   <View className="downWrapper">
                     <Text> 开始时间：</Text>
-                    {v.startTime == "-1" ? "" : v.startTime}
+                    {v.startTime == -1
+                      ? ""
+                      : dayjs.unix(v.startTime).format("YYYY-MM-DD HH:mm")}
                   </View>
                   <View className="at-icon at-icon-chevron-right"></View>
                 </View>
