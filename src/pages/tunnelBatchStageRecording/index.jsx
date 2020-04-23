@@ -29,6 +29,10 @@ class TunnelBatchStage extends Component {
     this.state = {};
   }
   componentDidMount() {
+    this.getList();
+  }
+
+  getList = () => {
     this.props.dispatchRecordByTunnelBatchList({
       query: `{
         recordListByStageId(pageQuery:{
@@ -48,13 +52,15 @@ class TunnelBatchStage extends Component {
       }
     }`
     });
-  }
-
-  getList = () => {};
+  };
 
   config = {
     navigationBarTitleText: "阶段记录"
   };
+  componentDidShow() {
+    this.getList();
+  }
+
   handleComplete = () => {
     this.props
       .dispatchCompleteStage({

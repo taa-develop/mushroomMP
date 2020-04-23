@@ -30,14 +30,7 @@ class TunnelBatch extends Component {
   }
 
   componentDidMount() {
-    Taro.startPullDownRefresh({
-      success: () => {
-        this.getList();
-        setTimeout(() => {
-          Taro.stopPullDownRefresh();
-        }, 500);
-      }
-    });
+    this.getList();
   }
 
   config = {
@@ -45,14 +38,7 @@ class TunnelBatch extends Component {
   };
 
   componentDidShow() {
-    Taro.startPullDownRefresh({
-      success: () => {
-        this.getList();
-        setTimeout(() => {
-          Taro.stopPullDownRefresh();
-        }, 500);
-      }
-    });
+    this.getList();
   }
 
   getList = () => {

@@ -36,14 +36,7 @@ class TunnelBatchStage extends Component {
   }
 
   componentDidMount() {
-    Taro.startPullDownRefresh({
-      success: () => {
-        this.getList();
-        setTimeout(() => {
-          Taro.stopPullDownRefresh();
-        }, 500);
-      }
-    });
+    this.getList();
   }
 
   config = {
@@ -51,14 +44,7 @@ class TunnelBatchStage extends Component {
   };
 
   componentDidShow() {
-    Taro.startPullDownRefresh({
-      success: () => {
-        this.getList();
-        setTimeout(() => {
-          Taro.stopPullDownRefresh();
-        }, 500);
-      }
-    });
+    this.getList();
   }
 
   componentDidHide() {}
@@ -111,16 +97,7 @@ class TunnelBatchStage extends Component {
             title: "成功",
             icon: "success",
             duration: 2000
-          }).then(() =>
-            Taro.startPullDownRefresh({
-              success: () => {
-                this.getList();
-                setTimeout(() => {
-                  Taro.stopPullDownRefresh();
-                }, 500);
-              }
-            })
-          );
+          }).then(() => this.getList());
         }
       });
   };
