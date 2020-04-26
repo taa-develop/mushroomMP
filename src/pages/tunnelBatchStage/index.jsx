@@ -104,6 +104,7 @@ class TunnelBatchStage extends Component {
 
   render() {
     const { stageBatchList } = this.props;
+
     return (
       <View className="container">
         <View className="items">
@@ -158,7 +159,11 @@ class TunnelBatchStage extends Component {
                 </View>
 
                 <View className="itemDownContent">
-                  {v.status == 0 && (
+                  {((indx == 0 && v.status == 0) ||
+                    (stageBatchList &&
+                      stageBatchList[indx - 1] &&
+                      stageBatchList[indx - 1].status == 2 &&
+                      v.status == 0)) && (
                     <View className="startButtton">
                       <AtButton
                         type="primary"
